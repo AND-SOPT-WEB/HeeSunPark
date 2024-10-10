@@ -109,6 +109,7 @@ body {
 /* Main */
 
 .row {
+  margin: 2rem 0rem;
   padding: 1.5rem;
 }
 
@@ -126,6 +127,21 @@ body {
 .carousel_list {
   display: flex;
   gap: 1.25rem;
+
+  /* 마지막 사진과 다음 리스트 첫번째 사진간 간격*/
+  padding-right: 1.25rem;
+  animation: scroll 20s linear infinite;
+}
+
+/* scroll animation */
+/* 0%에서 -100%로 이동 */
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
 }
 
 .carousel_list img {
@@ -136,6 +152,10 @@ body {
 }
 
 /* 가로 스크롤 */
+.scroll_container {
+  overflow-x: scroll;
+  scroll-behavior: smooth;
+}
 
 .scroll_list {
   display: flex;
@@ -152,7 +172,7 @@ body {
 /* Footer */
 
 .footer {
-  margin-top: 8rem;
+  margin-top: 5rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
