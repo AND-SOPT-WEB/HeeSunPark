@@ -1,0 +1,165 @@
+/* global css */
+@font-face {
+  font-family: 'GmarketSansMedium';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff')
+    format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+* {
+  font-family: 'GmarketSansMedium';
+}
+
+/*  스타일 제거 */
+a {
+  color: inherit;
+  text-decoration: none;
+  outline: none;
+}
+
+button {
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  outline: none;
+}
+
+body {
+  background-color: #000000;
+  color: #fff;
+}
+
+/* Header */
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 1.5rem;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  z-index: 10;
+}
+
+.header_navbar {
+  display: flex;
+  gap: 2rem;
+}
+
+.header_logo {
+  display: flex;
+  align-items: center;
+}
+
+.header_logo img {
+  width: 3rem;
+  height: 3rem;
+  margin-right: 1.5rem;
+}
+
+.header_menu {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  height: 100%;
+}
+
+.header_icons {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+/* Banner */
+
+.banner_container {
+  position: relative;
+}
+
+.banner_container img {
+  width: 100%;
+}
+
+/* 배너 내부 글씨, 버튼 */
+.banner_contents {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  position: absolute;
+  top: 80%;
+  right: 5%;
+}
+
+.banner_description {
+  background-color: #fff;
+  color: rgb(98, 49, 0);
+  padding: 1.25rem;
+  border-radius: 1rem;
+}
+
+.banner_btn {
+  display: flex;
+  padding: 1rem;
+  gap: 0.5rem;
+}
+
+/* Main */
+
+.row {
+  padding: 1.5rem;
+}
+
+.row_text {
+  font-size: larger;
+  margin-bottom: 0.9375rem;
+}
+
+/* 무한 배너 */
+.carousel_container {
+  display: flex;
+  overflow: hidden;
+}
+
+.carousel_list {
+  display: flex;
+  gap: 1.25rem;
+}
+
+.carousel_list img {
+  width: 15.625rem;
+  height: 15.625rem;
+  object-fit: cover;
+  border-radius: 0.625rem;
+}
+
+/* 가로 스크롤 */
+
+.scroll_list {
+  display: flex;
+  gap: 1.25rem;
+}
+
+.scroll_list img {
+  width: 17rem;
+  height: 22rem;
+  object-fit: cover;
+  border-radius: 0.625rem;
+}
+
+/* Footer */
+
+.footer {
+  margin-top: 8rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 10rem;
+  gap: 0.5rem;
+  background-color: #c4c4c4;
+  color: #000000;
+  font-size: x-small;
+}
