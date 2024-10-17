@@ -1,0 +1,287 @@
+/* global css */
+@font-face {
+  font-family: 'GmarketSansMedium';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff')
+    format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+* {
+  font-family: 'GmarketSansMedium';
+}
+
+/*  스타일 제거 */
+a {
+  text-decoration: none;
+  outline: none;
+  color: #fff;
+}
+
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #fff;
+  outline: none;
+}
+
+body {
+  background-color: #000000;
+  color: #fff;
+}
+
+/*부드러운 스크롤 효과*/
+html {
+  scroll-behavior: smooth;
+}
+
+/* 스크롤바 스타일링 */
+body::-webkit-scrollbar,
+.scrollBar::-webkit-scrollbar {
+  width: 0.5rem;
+}
+
+body::-webkit-scrollbar-thumb,
+.scrollBar::-webkit-scrollbar-thumb {
+  height: 10%;
+  background: #545454;
+  border-radius: 5px;
+}
+
+body::-webkit-scrollbar-track,
+.scrollBar::-webkit-scrollbar-track {
+  background: rgba(33, 122, 244, 0.1);
+  border-radius: 5px;
+}
+
+/* Header */
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 1.5rem;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  z-index: 2;
+}
+
+.header_navbar {
+  display: flex;
+  align-items: center;
+}
+
+.header_logo {
+  display: flex;
+  align-items: center;
+  margin-right: 3rem;
+}
+.header_logo h1 {
+  font-size: 1.5rem;
+  text-wrap: nowrap;
+}
+
+.header_logo img {
+  width: 3.75rem;
+  margin-right: 0.75rem;
+}
+
+.header_menu {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  width: 100%;
+  height: 100%;
+}
+
+.header_menu li {
+  cursor: pointer;
+  transition: transform 0.3s; /* 애니메이션 적용 */
+}
+
+/* nav hover 스타일 */
+.header_menu li:hover {
+  transform: scale(1.1);
+}
+
+.header_link {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  font-size: 5rem;
+}
+
+.header_icons {
+  transition: transform 0.3s; /* 애니메이션 적용 */
+}
+
+/* 아이콘 호버 시 스타일 */
+.header_icons:hover {
+  transform: scale(1.1);
+}
+
+/* Banner */
+
+.banner_container {
+  position: relative;
+}
+
+.banner_container img {
+  width: 100%;
+}
+
+/* 배너 내부 글씨, 버튼 */
+.banner_contents {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  position: absolute;
+  top: 80%;
+  right: 5%;
+}
+
+.banner_description {
+  padding: 1rem;
+  border-radius: 5px;
+  font-weight: bolder;
+  font-size: 2rem;
+  color: #803e00;
+  background: #ffffff;
+  margin-bottom: 0.625rem;
+}
+
+.banner_btn {
+  display: flex;
+  background-color: #686868;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  padding: 1rem;
+  font-size: 2rem;
+  gap: 0.5rem;
+  border-radius: 5px;
+  transition: transform 0.3s ease, background-color 0.3s ease; /* 애니메이션 적용 */
+}
+
+/* 버튼 호버 시 스타일 */
+.banner_btn:hover {
+  transform: scale(1.1);
+  background-color: #0e0e0e;
+}
+
+/* Main */
+
+.row {
+  margin: 2rem 0rem;
+  padding: 1.5rem;
+}
+
+.row_text {
+  font-size: larger;
+  margin-bottom: 1rem;
+}
+
+/* 무한 배너 */
+.carousel_container {
+  display: flex;
+  overflow: hidden;
+  width: 100%;
+}
+
+.carousel_list {
+  display: flex;
+  gap: 1rem;
+
+  /* 마지막 사진과 다음 리스트 첫번째 사진간 간격*/
+  padding-right: 1rem;
+
+  /* 무한 배너 animation */
+  animation: scroll 20s linear infinite;
+}
+
+/* scroll animation */
+/* 0%에서 -100%로 이동 */
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.carousel_list img {
+  width: 15rem;
+  height: 15rem;
+  object-fit: cover;
+  border-radius: 5px;
+  transition: transform 0.3s ease; /* 애니메이션 적용 */
+}
+
+.carousel_list img:hover {
+  transform: scale(1.1);
+}
+
+/* 가로 스크롤 */
+.scroll_container {
+  overflow-x: scroll;
+  scroll-behavior: smooth;
+}
+
+.scroll_list {
+  display: flex;
+  gap: 1rem;
+}
+
+.scroll_list img {
+  width: 17rem;
+  height: 22rem;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+/* 버튼 스크롤 */
+
+.button_scroll_container {
+  display: flex;
+  position: relative;
+}
+
+.scroll_btn {
+  position: absolute;
+  top: 50%;
+  color: white;
+  border-radius: 3px;
+  cursor: pointer;
+  z-index: 10;
+  padding: 1rem;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.scroll_btn:hover {
+  transform: scale(1.1);
+  background-color: #0e0e0e;
+}
+
+.left_btn {
+  left: 0;
+}
+
+.right_btn {
+  right: 0;
+}
+
+/* Footer */
+footer {
+  margin-top: 5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 10rem;
+  gap: 0.5rem;
+  background-color: #c4c4c4;
+  color: #000000;
+  font-size: 1.5rem;
+}
