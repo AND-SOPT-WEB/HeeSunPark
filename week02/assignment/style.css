@@ -1,0 +1,117 @@
+@font-face {
+  font-family: 'Pretendard-Regular';
+  src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff')
+    format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
+
+* {
+  font-family: 'Pretendard-Regular';
+  background-color: bisque;
+}
+
+/* header */
+.header {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  height: 5rem;
+  align-items: center;
+  padding: 1rem;
+}
+
+.header__left {
+  text-align: left;
+}
+
+.header__middle {
+  text-align: center;
+}
+
+.header__middle h1 {
+  font-size: 1.5rem;
+}
+
+.header__right {
+  text-align: right;
+}
+
+/* main */
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* filter */
+.filter {
+  padding: 1rem;
+}
+
+.filter-form {
+  width: 100%;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.filter-form__row {
+  width: 100%;
+  height: 5rem;
+  display: grid;
+  grid-template-columns: minmax(8rem, auto) 3fr;
+}
+
+/* 3 item grid */
+.filter-form__row--three-item {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+/* 2 item grid */
+.filter-form__row--two-item {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+/* label */
+.filter-form__label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  background-color: #dfdfdf;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+/* input, select */
+.filter-form__input,
+.filter-form__select {
+  background-color: #fff;
+  padding: 0.5rem;
+}
+
+/* form action button */
+.filter-form__actions {
+  margin-top: 2rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  height: 4rem;
+  gap: 1rem;
+}
+
+.filter-form__actions button {
+  border-radius: 3rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.filter-form__action--reset {
+  background-color: #ffd146;
+}
+
+.filter-form__action--submit {
+  background-color: #af7e00;
+}
