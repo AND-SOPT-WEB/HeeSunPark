@@ -113,6 +113,31 @@
           </div>
         </form>
       </section>
+
+      <!-- member list -->
+      <section class="members">
+        <div class="members__actions">
+          <button class="members__actions--delete">선택삭제</button>
+          <button class="members__actions--add">추가</button>
+        </div>
+        <table class="members-table">
+          <thead>
+            <tr class="members-table__head">
+              <th><input type="checkbox" id="select-all" /></th>
+              <th>이름</th>
+              <th>영문 이름</th>
+              <th>GitHub</th>
+              <th>성별</th>
+              <th>역할</th>
+              <th>1주차 금잔디</th>
+              <th>2주차 금잔디</th>
+            </tr>
+          </thead>
+          <tbody class="members-table__body"></tbody>
+        </table>
+      </section>
     </main>
+    <script src="data.js" type="module"></script>
+    <script src="script.js" type="module"></script>
   </body>
 </html>

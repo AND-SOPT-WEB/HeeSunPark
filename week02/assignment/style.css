@@ -115,3 +115,52 @@ main {
 .filter-form__action--submit {
   background-color: #af7e00;
 }
+
+/* members */
+
+.members {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.members__actions {
+  display: flex;
+  justify-content: end;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.members__actions button {
+  border-radius: 3rem;
+  color: #fff;
+  padding: 1rem;
+  font-weight: 600;
+}
+
+.members__actions--delete {
+  background-color: #ffd146;
+}
+
+.members__actions--add {
+  background-color: #af7e00;
+}
+
+/* table */
+.members-table__head th,
+.members-table__body td {
+  padding: 12px; /* 셀 내부 여백 */
+  border: 1px solid #936501; /* 셀 경계 색상 (여기서는 초록색으로 설정) */
+  text-align: center;
+  vertical-align: middle; /* 수직 중앙 정렬 */
+}
+
+.members-table th {
+  background-color: #af7e00;
+  color: #fff;
+}
+
+.members-table__body td {
+  background-color: #fff;
+}
