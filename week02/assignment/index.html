@@ -40,11 +40,11 @@
             />
           </div>
           <div class="filter-form__row">
-            <label for="eng-name" class="filter-form__label">영문이름</label>
+            <label for="englishName" class="filter-form__label">영문이름</label>
             <input
               type="text"
-              id="eng-name"
-              name="eng-name"
+              id="englishName"
+              name="englishName"
               class="filter-form__input"
               placeholder="영문이름을 입력하세요"
             />
@@ -79,25 +79,25 @@
           </div>
           <div class="filter-form__row--two-item">
             <div class="filter-form__row">
-              <label for="week1_group" class="filter-form__label"
+              <label for="firstWeekGroup" class="filter-form__label"
                 >1주차 금잔디조</label
               >
               <input
-                type="text"
-                id="week1_group"
-                name="week1_group"
+                type="number"
+                id="firstWeekGroup"
+                name="firstWeekGroup"
                 class="filter-form__input"
                 placeholder="1주차 금잔디조를 입력하세요 (1~9)"
               />
             </div>
             <div class="filter-form__row">
-              <label for="week2_group" class="filter-form__label"
+              <label for="secondWeekGroup" class="filter-form__label"
                 >2주차 금잔디조</label
               >
               <input
-                type="text"
-                id="week2_group"
-                name="week2_group"
+                type="number"
+                id="secondWeekGroup"
+                name="secondWeekGroup"
                 class="filter-form__input"
                 placeholder="2주차 금잔디조를 입력하세요 (1~9)"
               />
@@ -137,7 +137,7 @@
         </table>
       </section>
     </main>
-    <script src="data.js" type="module"></script>
+    <script src="./utils/data.js" type="module"></script>
     <script src="script.js" type="module"></script>
   </body>
 </html>

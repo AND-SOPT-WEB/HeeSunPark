@@ -1,4 +1,5 @@
-import { members } from './data.js';
+import { members } from './utils/data.js';
+import { renderMembersTable } from './utils/render.js';
 
 // localStorage에서 값 가져오기
 let membersData = JSON.parse(localStorage.getItem('membersData')) || [];
@@ -10,45 +11,68 @@ if (membersData.length === 0) {
 }
 
 const membersTableBody = document.querySelector('.members-table__body');
+renderMembersTable(membersData, membersTableBody);
+// 필터 기능 구현
+const submitBtn = document.querySelector('.filter-form__action--submit');
+submitBtn.addEventListener('click', (event) => {
+  event.preventDefault();
+  let filteredData = [...membersData];
+  const name = document.getElementById('name').value.trim();
+  const englishName = document.getElementById('englishName').value.trim();
+  const github = document.getElementById('github').value.trim();
+  const gender = document.querySelector('select[name=gender]').value;
+  const role = document
+    .querySelector('select[name=role]')
+    .value.trim()
+    .toUpperCase();
+  console.log(role);
 
-membersData.forEach((membersData) => {
-  const tr = document.createElement('tr');
+  const firstWeekGroup = document.getElementById('firstWeekGroup').value;
+  const secondWeekGroup = document.getElementById('secondWeekGroup').value;
 
-  // checkBox 추가
-  const checkBoxTd = document.createElement('td');
-  const checkBox = document.createElement('input');
-  checkBox.type = 'checkbox';
-  checkBoxTd.appendChild(checkBox);
-  tr.appendChild(checkBoxTd);
+  if (name) {
+    filteredData = filteredData.filter((membersData) =>
+      membersData.name.includes(name)
+    );
+  }
 
-  // 각 멤버의 정보 추가
-  const name = document.createElement('td');
-  name.textContent = membersData.name;
-  tr.appendChild(name);
+  if (englishName) {
+    filteredData = filteredData.filter((membersData) =>
+      membersData.englishName.includes(englishName)
+    );
+  }
 
-  const englishName = document.createElement('td');
-  englishName.textContent = membersData.englishName;
-  tr.appendChild(englishName);
+  if (github) {
+    filteredData = filteredData.filter((membersData) =>
+      membersData.github.includes(github)
+    );
+  }
 
-  const github = document.createElement('td');
-  github.textContent = membersData.github;
-  tr.appendChild(github);
+  if (gender) {
+    filteredData = filteredData.filter(
+      (membersData) => membersData.gender === gender
+    );
+  }
 
-  const gender = document.createElement('td');
-  gender.textContent = membersData.gender;
-  tr.appendChild(gender);
+  if (role) {
+    filteredData = filteredData.filter(
+      (membersData) => membersData.role === role
+    );
+  }
 
-  const role = document.createElement('td');
-  role.textContent = membersData.role;
-  tr.appendChild(role);
+  if (firstWeekGroup) {
+    filteredData = filteredData.filter(
+      (membersData) => membersData.firstWeekGroup === Number(firstWeekGroup)
+    );
+  }
 
-  const firstWeekGroup = document.createElement('td');
-  firstWeekGroup.textContent = membersData.firstWeekGroup;
-  tr.appendChild(firstWeekGroup);
+  if (secondWeekGroup) {
+    filteredData = filteredData.filter(
+      (membersData) => membersData.secondWeekGroup === secondWeekGroup
+    );
+  }
 
-  const secondWeekGroup = document.createElement('td');
-  secondWeekGroup.textContent = membersData.secondWeekGroup;
-  tr.appendChild(secondWeekGroup);
+  console.log(firstWeekGroup);
 
-  membersTableBody.appendChild(tr);
+  renderMembersTable(filteredData, membersTableBody);
 });
