@@ -12,6 +12,7 @@ if (membersData.length === 0) {
 
 const membersTableBody = document.querySelector('.members-table__body');
 renderMembersTable(membersData, membersTableBody);
+
 // 필터 기능 구현
 const submitBtn = document.querySelector('.filter-form__action--submit');
 submitBtn.addEventListener('click', (event) => {
@@ -75,4 +76,38 @@ submitBtn.addEventListener('click', (event) => {
   console.log(firstWeekGroup);
 
   renderMembersTable(filteredData, membersTableBody);
+});
+
+// 삭제 버튼을 클릭했을 때의 로직
+const deleteBtn = document.querySelector('.members__actions--delete');
+const allCheck = document.querySelector('#select-all');
+const checkBoxes = document.querySelectorAll('input[type=checkbox]');
+
+allCheck.addEventListener('click', () => {
+  const isAllChecked = allCheck.checked;
+
+  if (isAllChecked) {
+    console.log('true');
+    checkBoxes.forEach((checkBoxes) => {
+      checkBoxes.checked = true;
+    });
+  } else {
+    console.log('false');
+    checkBoxes.forEach((checkBoxes) => {
+      checkBoxes.checked = false;
+    });
+  }
+
+  // checkBoxes.forEach((checkbox) => {
+  //   checkbox.checked = isAllChecked; // 체크 상태를 모두 선택 체크박스에 맞춤
+  // });
+});
+
+deleteBtn.addEventListener('click', () => {
+  checkBoxes.forEach((checkBoxes) => {
+    if (checkBoxes.checked) {
+      const row = checkBoxes.closest('tr');
+      row.remove();
+    }
+  });
 });

@@ -3,7 +3,7 @@
 export const renderMembersTable = (membersData, tableBody) => {
   // 기존의 테이블 내용을 비웁니다.
   tableBody.innerHTML = '';
-
+  let i = 1;
   membersData.forEach((member) => {
     const tr = document.createElement('tr');
 
