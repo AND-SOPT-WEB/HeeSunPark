@@ -6,6 +6,7 @@ export const renderMembersTable = (membersData, tableBody) => {
 
   membersData.forEach((member) => {
     const tr = document.createElement('tr');
+    tr.dataset.id = member.id; // 고유 id를 행에 저장
 
     // 체크박스 추가
     const checkBoxTd = document.createElement('td');

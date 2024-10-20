@@ -47,7 +47,8 @@ export const applyFilters = (initialData, filters) => {
     );
   }
 
-  return filteredData; // 필터링된 데이터 반환
+  initialData = filteredData;
+  return filteredData, initialData; // 필터링된 데이터 반환
 };
 
 // 체크박스 선택, 해제 관련 함수

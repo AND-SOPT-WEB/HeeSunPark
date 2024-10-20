@@ -119,7 +119,7 @@ main {
 }
 
 .filter-form__action--reset {
-  background-color: var(--blue);
+  background-color: var(--darkgray);
 }
 
 .filter-form__action--submit {
@@ -128,7 +128,7 @@ main {
 
 .filter-form__action--reset:hover,
 .filter-form__action--submit:hover {
-  background-color: var(--darkgray);
+  background-color: var(--black);
 }
 
 /* members */

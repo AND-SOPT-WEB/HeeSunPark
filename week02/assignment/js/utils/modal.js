@@ -1,4 +1,8 @@
-export const createModal = (addMemberCallback) => {
+export const createModal = (
+  membersData,
+  renderMembersTable,
+  membersTableBody
+) => {
   const modalHTML = `
     <div class="modal__container">
       <header class="modal__header">
@@ -66,6 +70,7 @@ export const createModal = (addMemberCallback) => {
     }
   });
 
+  let newMemberId = membersData.length;
   const addButton = document.querySelector('.modal__addButton');
   addButton.addEventListener('click', () => {
     const name = modal.querySelector('#name').value.trim();
@@ -91,6 +96,7 @@ export const createModal = (addMemberCallback) => {
     }
 
     const newMember = {
+      id: newMemberId + 1,
       name,
       englishName,
       github,
@@ -100,8 +106,10 @@ export const createModal = (addMemberCallback) => {
       secondWeekGroup: Number(secondWeekGroup),
     };
 
-    // 멤버 추가 콜백 함수 호출
-    addMemberCallback(newMember);
+    // 멤버 추가
+    membersData.push(newMember); // 새 멤버 추가
+    localStorage.setItem('membersData', JSON.stringify(membersData)); // 로컬 스토리지 업데이트
+    renderMembersTable(membersData, membersTableBody); // 테이블 다시 렌더링
 
     modal.style.display = 'none';
   });

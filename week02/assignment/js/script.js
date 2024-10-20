@@ -2,7 +2,7 @@ import { members } from './utils/data.js';
 import { renderMembersTable } from './utils/render.js';
 import { createModal, displayModal } from './utils/modal.js';
 import { applyFilters, handleCheckBoxes } from './utils/filter.js';
-import { deleteRow } from './utils/delete.js';
+import { deleteRowAndReset } from './utils/delete.js'; // 새로운 함수 불러오기
 
 // localStorage에서 값 가져오기
 let membersData = JSON.parse(localStorage.getItem('membersData')) || [];
@@ -20,13 +20,7 @@ let initialData = [...membersData];
 const membersTableBody = document.querySelector('.members-table__body');
 renderMembersTable(membersData, membersTableBody);
 
-// 필터 초기화 기능
-const resetBtn = document.querySelector('.filter-form__action--reset');
-resetBtn.addEventListener('click', () => {
-  membersData = members;
-  localStorage.setItem('membersData', JSON.stringify(membersData));
-  renderMembersTable(membersData, membersTableBody);
-});
+let filteredData = [];
 
 // 필터 검색 기능
 const submitBtn = document.querySelector('.filter-form__action--submit');
@@ -47,7 +41,7 @@ submitBtn.addEventListener('click', (event) => {
   };
 
   // applyFilters 함수를 호출, 필터링된 데이터 얻기
-  const filteredData = applyFilters(initialData, filters);
+  filteredData = applyFilters(initialData, filters);
 
   if (filteredData.length === 0) {
     alert('해당 조건에 맞는 멤버가 없습니다.');
@@ -56,30 +50,25 @@ submitBtn.addEventListener('click', (event) => {
   renderMembersTable(filteredData, membersTableBody);
 });
 
-// 체크박스 및 삭제 기능
+// 체크박스 및 삭제 및 초기화 기능
 const deleteBtn = document.querySelector('.members__actions--delete');
+const resetBtn = document.querySelector('.filter-form__action--reset'); // 필터 초기화 버튼 가져오기
 const allCheck = document.querySelector('#select-all');
 const checkBoxes = membersTableBody.querySelectorAll('input[type=checkbox]');
 
 handleCheckBoxes(allCheck, checkBoxes); // 체크박스 함수 호출
-deleteRow(
+deleteRowAndReset(
   deleteBtn,
-  checkBoxes,
+  resetBtn, // 필터 초기화 버튼을 전달
   membersData,
   renderMembersTable,
   membersTableBody,
-  allCheck
+  allCheck,
+  members
 );
 
-// 멤버 추가 함수 정의
-const addMember = (newMember) => {
-  membersData.push(newMember); // 새 멤버 추가
-  localStorage.setItem('membersData', JSON.stringify(membersData)); // 로컬 스토리지 업데이트
-  renderMembersTable(membersData, membersTableBody); // 테이블 다시 렌더링
-};
-
 // 모달 생성
-const modal = createModal(addMember);
+const modal = createModal(membersData, renderMembersTable, membersTableBody);
 
 // '추가' 버튼 클릭 시 모달 열기
 const addBtn = document.querySelector('.members__actions--add');
