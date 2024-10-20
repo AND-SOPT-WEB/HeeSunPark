@@ -43,14 +43,15 @@ body {
 /* main */
 main {
   width: 100%;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
 }
 
 /* filter */
 .filter {
+  margin-top: 3rem;
   width: 70rem;
   padding: 1rem;
 }
@@ -214,6 +215,10 @@ main {
   justify-content: space-between;
 }
 
+.modal__header i {
+  cursor: pointer;
+}
+
 .modal__row {
   display: flex;
   flex-direction: column;
@@ -231,15 +236,20 @@ main {
   height: 3rem;
 }
 
-.modal__btn {
+.modal__addButton {
   width: 100%;
   height: 3rem;
   color: var(--white);
   font-weight: 700;
+  cursor: pointer;
   background-color: var(--blue);
 }
 
 /* footer */
+footer {
+  width: 100%;
+}
+
 .footer-content {
   display: flex;
   flex-direction: column;

@@ -6,7 +6,7 @@ export const renderMembersTable = (membersData, tableBody) => {
   let i = 1;
   membersData.forEach((member) => {
     const tr = document.createElement('tr');
-
+    tr.id = 'data';
     // 체크박스 추가
     const checkBoxTd = document.createElement('td');
     const checkBox = document.createElement('input');
@@ -26,6 +26,8 @@ export const renderMembersTable = (membersData, tableBody) => {
     const githubTd = document.createElement('td');
     githubTd.textContent = member.github;
     tr.appendChild(githubTd);
+
+    tr.dataset.githubid = member.github;
 
     const genderTd = document.createElement('td');
     genderTd.textContent = member.gender;

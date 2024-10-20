@@ -1,6 +1,4 @@
-// 모달창 js
-
-export const createModal = () => {
+export const createModal = (addMemberCallback) => {
   const modalHTML = `
     <div class="modal__container">
       <header class="modal__header">
@@ -47,7 +45,7 @@ export const createModal = () => {
           >
           <input type="number" id="secondWeekGroup" class="modal__input" />
         </div>
-        <button class="modal__btn">추가</button>
+        <button class="modal__addButton">추가</button>
      </div>
   `;
 
@@ -59,6 +57,54 @@ export const createModal = () => {
     modal.style.display = 'none';
   });
 
+  const outModal = document.querySelector('.modal');
+
+  // 모달 외부를 클릭할 때 모달 닫기
+  outModal.addEventListener('click', (event) => {
+    if (event.target === outModal) {
+      outModal.style.display = 'none';
+    }
+  });
+
+  const addButton = document.querySelector('.modal__addButton');
+  addButton.addEventListener('click', () => {
+    const name = modal.querySelector('#name').value.trim();
+    const englishName = modal.querySelector('#englishName').value.trim();
+    const github = modal.querySelector('#github').value.trim();
+    const gender = modal.querySelector('select[name=gender]').value;
+    const role = modal.querySelector('select[name=role]').value.trim();
+    const firstWeekGroup = modal.querySelector('#firstWeekGroup').value;
+    const secondWeekGroup = modal.querySelector('#secondWeekGroup').value;
+
+    // 유효성 검사
+    if (
+      !name ||
+      !englishName ||
+      !github ||
+      !gender ||
+      !role ||
+      !firstWeekGroup ||
+      !secondWeekGroup
+    ) {
+      alert('모든 값을 채워주세요.');
+      return;
+    }
+
+    const newMember = {
+      name,
+      englishName,
+      github,
+      gender,
+      role,
+      firstWeekGroup: Number(firstWeekGroup),
+      secondWeekGroup: Number(secondWeekGroup),
+    };
+
+    // 멤버 추가 콜백 함수 호출
+    addMemberCallback(newMember);
+
+    modal.style.display = 'none';
+  });
   return modal;
 };
 
