@@ -1,24 +1,24 @@
 @font-face {
-  font-family: 'Pretendard-Regular';
-  src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff')
-    format('woff');
-  font-weight: 400;
+  font-family: 'SUIT-Regular';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Regular.woff2')
+    format('woff2');
+  font-weight: normal;
   font-style: normal;
 }
-
 * {
-  font-family: 'Pretendard-Regular';
+  font-family: 'SUIT-Regular';
 }
 
 body {
-  background-color: aliceblue;
+  background-color: var(--lightblue);
 }
 
 /* header */
 .header {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  background-color: aquamarine;
+  background-color: var(--blue);
+  color: var(--white);
   height: 5rem;
   align-items: center;
   padding: 1rem;
@@ -42,14 +42,16 @@ body {
 
 /* main */
 main {
-  display: flex;
   width: 100%;
+  display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
 }
 
 /* filter */
 .filter {
+  width: 70rem;
   padding: 1rem;
 }
 
@@ -84,19 +86,19 @@ main {
   align-items: center;
   justify-content: center;
   padding: 0.5rem;
-  background-color: #dfdfdf;
+  background-color: var(--gray);
   font-size: 1.2rem;
   font-weight: 600;
 }
 
-/* input, select */
+/* filter input, select */
 .filter-form__input,
 .filter-form__select {
-  background-color: #fff;
+  background-color: var(--white);
   padding: 0.5rem;
 }
 
-/* form action button */
+/* filter form action button */
 .filter-form__actions {
   margin-top: 2rem;
   display: grid;
@@ -108,23 +110,31 @@ main {
 .filter-form__actions button {
   border-radius: 3rem;
   font-weight: 600;
-  color: #fff;
+  color: var(--white);
+  transition: background-color 0.3s ease;
+  cursor: pointer;
 }
 
 .filter-form__action--reset {
-  background-color: #ffd146;
+  background-color: var(--blue);
 }
 
 .filter-form__action--submit {
-  background-color: #af7e00;
+  background-color: var(--darkblue);
+}
+
+.filter-form__action--reset:hover,
+.filter-form__action--submit:hover {
+  background-color: var(--darkgray);
 }
 
 /* members */
-
 .members {
+  width: 70rem;
   display: flex;
   flex-direction: column;
   padding: 1rem;
+  margin-bottom: 6rem;
 }
 
 .members__actions {
@@ -136,35 +146,43 @@ main {
 
 .members__actions button {
   border-radius: 3rem;
-  color: #fff;
+  color: var(--white);
   padding: 1rem;
   font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .members__actions--delete {
-  background-color: #ffd146;
+  background-color: var(--blue);
 }
 
 .members__actions--add {
-  background-color: #af7e00;
+  background-color: var(--darkblue);
+}
+
+.members__actions--delete:hover,
+.members__actions--add:hover {
+  background-color: var(--darkgray);
 }
 
 /* table */
 .members-table__head th,
 .members-table__body td {
-  padding: 12px; /* 셀 내부 여백 */
-  border: 1px solid #936501; /* 셀 경계 색상 (여기서는 초록색으로 설정) */
+  padding: 12px;
+  font-size: 1.2rem;
+  border: 1px solid var(--lightblue);
   text-align: center;
-  vertical-align: middle; /* 수직 중앙 정렬 */
+  vertical-align: middle;
 }
 
 .members-table th {
-  background-color: #af7e00;
-  color: #fff;
+  background-color: var(--blue);
+  color: var(--white);
 }
 
 .members-table__body td {
-  background-color: #fff;
+  background-color: var(--white);
 }
 
 /* modal */
@@ -185,7 +203,7 @@ main {
   flex-direction: column;
   padding: 3rem;
   width: 50rem;
-  background-color: white;
+  background-color: var(--white);
   border-radius: 3rem;
   gap: 2rem;
 }
@@ -209,14 +227,24 @@ main {
 
 .modal__input,
 .modal__select {
-  border: 1px solid #7a7a7a;
+  border: 1px solid var(--darkgray);
   height: 3rem;
 }
 
 .modal__btn {
   width: 100%;
   height: 3rem;
-  color: #fff;
+  color: var(--white);
   font-weight: 700;
-  background-color: #936501;
+  background-color: var(--blue);
+}
+
+/* footer */
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 10rem;
+  background-color: var(--gray);
 }

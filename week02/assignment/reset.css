@@ -136,3 +136,19 @@ select,
 button {
   border: none;
 }
+* {
+  box-sizing: border-box;
+}
+a {
+  text-decoration: none;
+  color: var(--black);
+}
+:root {
+  --black: #17171a;
+  --darkgray: #3e3f45;
+  --white: #fff;
+  --blue: #0080ff;
+  --darkblue: #003e8f;
+  --lightblue: #c8e5ff;
+  --gray: #dfdfdf;
+}
