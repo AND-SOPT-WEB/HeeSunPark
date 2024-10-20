@@ -1,0 +1,266 @@
+@font-face {
+  font-family: 'SUIT-Regular';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Regular.woff2')
+    format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+* {
+  font-family: 'SUIT-Regular';
+}
+
+body {
+  background-color: var(--lightblue);
+}
+
+/* header */
+.header {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  background-color: var(--blue);
+  color: var(--white);
+  height: 5rem;
+  align-items: center;
+  padding: 1rem;
+}
+
+.header__left {
+  text-align: left;
+}
+
+.header__middle {
+  text-align: center;
+}
+
+.header__middle h1 {
+  font-size: 1.5rem;
+}
+
+.header__right {
+  text-align: right;
+}
+
+/* main */
+main {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* filter */
+.filter {
+  margin-top: 3rem;
+  width: 74rem;
+  padding: 1rem;
+  border-radius: 1rem;
+  background-color: var(--blue);
+}
+
+.filter-form {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.filter-form__row {
+  height: 5rem;
+  display: grid;
+  grid-template-columns: minmax(8rem, auto) 3fr;
+}
+
+/* 3 item grid */
+.filter-form__row--three-item {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+/* 2 item grid */
+.filter-form__row--two-item {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+/* label */
+.filter-form__label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  background-color: var(--gray);
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+/* filter input, select */
+.filter-form__input,
+.filter-form__select {
+  background-color: var(--white);
+  padding: 0.5rem;
+}
+
+/* filter form action button */
+.filter-form__actions {
+  margin-top: 2rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  height: 4rem;
+  gap: 1rem;
+}
+
+.filter-form__actions button {
+  border-radius: 3rem;
+  font-weight: 600;
+  color: var(--white);
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+}
+
+.filter-form__action--reset {
+  background-color: var(--darkgray);
+}
+
+.filter-form__action--submit {
+  background-color: var(--darkblue);
+}
+
+.filter-form__action--reset:hover,
+.filter-form__action--submit:hover {
+  background-color: var(--black);
+}
+
+/* members */
+.members {
+  width: 76rem;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  margin-bottom: 6rem;
+}
+
+.members__actions {
+  display: flex;
+  justify-content: end;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.members__actions button {
+  border-radius: 3rem;
+  color: var(--white);
+  padding: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.members__actions--delete {
+  background-color: var(--blue);
+}
+
+.members__actions--add {
+  background-color: var(--darkblue);
+}
+
+.members__actions--delete:hover,
+.members__actions--add:hover {
+  background-color: var(--darkgray);
+}
+
+/* table */
+.members-table__head th,
+.members-table__body td {
+  padding: 12px;
+  font-size: 1.2rem;
+  border: 1px solid var(--lightblue);
+  text-align: center;
+  vertical-align: middle;
+}
+
+.members-table__body a {
+  font-size: inherit;
+  text-decoration: underline;
+}
+
+.members-table th {
+  background-color: var(--blue);
+  color: var(--white);
+}
+
+.members-table__body td {
+  background-color: var(--white);
+}
+
+/* modal */
+
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center;
+}
+
+.modal__container {
+  display: flex;
+  flex-direction: column;
+  padding: 3rem;
+  width: 50rem;
+  background-color: var(--white);
+  border-radius: 3rem;
+  gap: 2rem;
+}
+
+.modal__header {
+  display: flex;
+  font-size: 3rem;
+  justify-content: space-between;
+}
+
+.modal__header i {
+  cursor: pointer;
+}
+.modal__row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.modal__label {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.modal__input,
+.modal__select {
+  border: 1px solid var(--darkgray);
+  height: 3rem;
+}
+
+.modal__addButton {
+  width: 100%;
+  height: 3rem;
+  color: var(--white);
+  font-weight: 700;
+  cursor: pointer;
+  background-color: var(--blue);
+}
+
+/* footer */
+footer {
+  width: 100%;
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 10rem;
+  background-color: var(--gray);
+}
