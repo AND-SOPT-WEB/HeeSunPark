@@ -1,5 +1,6 @@
 import { members } from './utils/data.js';
 import { renderMembersTable } from './utils/render.js';
+import { createModal, displayModal } from './utils/modal.js';
 
 // localStorage에서 값 가져오기
 let membersData = JSON.parse(localStorage.getItem('membersData')) || [];
@@ -78,7 +79,6 @@ submitBtn.addEventListener('click', (event) => {
   renderMembersTable(filteredData, membersTableBody);
 });
 
-// 삭제 버튼을 클릭했을 때의 로직
 const deleteBtn = document.querySelector('.members__actions--delete');
 const allCheck = document.querySelector('#select-all');
 const checkBoxes = document.querySelectorAll('input[type=checkbox]');
@@ -103,6 +103,8 @@ allCheck.addEventListener('click', () => {
   // });
 });
 
+// 삭제 버튼을 클릭했을 때의 로직
+// 삭제 기능
 deleteBtn.addEventListener('click', () => {
   checkBoxes.forEach((checkBoxes) => {
     if (checkBoxes.checked) {
@@ -110,4 +112,13 @@ deleteBtn.addEventListener('click', () => {
       row.remove();
     }
   });
+});
+
+// 모달 생성
+const modal = createModal();
+
+// '추가' 버튼 클릭 시 모달 열기
+const addBtn = document.querySelector('.members__actions--add');
+addBtn.addEventListener('click', () => {
+  displayModal(modal);
 });
