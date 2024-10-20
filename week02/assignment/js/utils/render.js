@@ -2,11 +2,11 @@
 
 export const renderMembersTable = (membersData, tableBody) => {
   // 기존의 테이블 내용을 비웁니다.
-  tableBody.innerHTML = '';
-  let i = 1;
+  tableBody.replaceChildren();
+
   membersData.forEach((member) => {
     const tr = document.createElement('tr');
-    tr.id = 'data';
+
     // 체크박스 추가
     const checkBoxTd = document.createElement('td');
     const checkBox = document.createElement('input');
@@ -24,10 +24,15 @@ export const renderMembersTable = (membersData, tableBody) => {
     tr.appendChild(englishNameTd);
 
     const githubTd = document.createElement('td');
-    githubTd.textContent = member.github;
-    tr.appendChild(githubTd);
 
-    tr.dataset.githubid = member.github;
+    // github 셀 에 a href 태그 생성하고 넣기
+    const githubHref = document.createElement('a');
+    githubHref.textContent = member.github;
+    githubHref.href = `https://github.com/${member.github}`;
+    githubHref.target = '_blank';
+
+    githubTd.appendChild(githubHref);
+    tr.appendChild(githubTd);
 
     const genderTd = document.createElement('td');
     genderTd.textContent = member.gender;

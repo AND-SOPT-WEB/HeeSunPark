@@ -52,8 +52,10 @@ main {
 /* filter */
 .filter {
   margin-top: 3rem;
-  width: 70rem;
+  width: 74rem;
   padding: 1rem;
+  border-radius: 1rem;
+  background-color: var(--blue);
 }
 
 .filter-form {
@@ -131,7 +133,7 @@ main {
 
 /* members */
 .members {
-  width: 70rem;
+  width: 76rem;
   display: flex;
   flex-direction: column;
   padding: 1rem;
@@ -177,6 +179,11 @@ main {
   vertical-align: middle;
 }
 
+.members-table__body a {
+  font-size: inherit;
+  text-decoration: underline;
+}
+
 .members-table th {
   background-color: var(--blue);
   color: var(--white);
@@ -218,7 +225,6 @@ main {
 .modal__header i {
   cursor: pointer;
 }
-
 .modal__row {
   display: flex;
   flex-direction: column;

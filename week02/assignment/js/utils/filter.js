@@ -1,6 +1,4 @@
 export const applyFilters = (initialData, filters) => {
-  let filteredData = [...initialData]; // 초기 데이터로부터 필터링 시작
-
   const {
     name,
     englishName,
@@ -10,6 +8,8 @@ export const applyFilters = (initialData, filters) => {
     firstWeekGroup,
     secondWeekGroup,
   } = filters;
+
+  let filteredData = [...initialData]; // 초기 데이터로부터 필터링 시작
 
   if (name) {
     filteredData = filteredData.filter((member) => member.name.includes(name));
@@ -43,7 +43,7 @@ export const applyFilters = (initialData, filters) => {
 
   if (secondWeekGroup) {
     filteredData = filteredData.filter(
-      (member) => member.secondWeekGroup === secondWeekGroup
+      (member) => member.secondWeekGroup === Number(secondWeekGroup)
     );
   }
 

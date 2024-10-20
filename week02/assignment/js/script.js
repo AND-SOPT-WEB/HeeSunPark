@@ -67,7 +67,8 @@ deleteRow(
   checkBoxes,
   membersData,
   renderMembersTable,
-  membersTableBody
+  membersTableBody,
+  allCheck
 );
 
 // 멤버 추가 함수 정의
@@ -84,19 +85,4 @@ const modal = createModal(addMember);
 const addBtn = document.querySelector('.members__actions--add');
 addBtn.addEventListener('click', () => {
   displayModal(modal);
-});
-
-const tableRows = membersTableBody.querySelectorAll('tr');
-tableRows.forEach((row) => {
-  row.addEventListener('click', () => {
-    const githubId = row.dataset.githubid; // data-github 속성에서 GitHub ID 가져오기
-
-    if (githubId) {
-      // GitHub 주소로 이동
-      window.open(`https://github.com/${githubId}`, '_blank'); // 새 탭에서 열기
-    } else {
-      alert('GitHub ID가 없습니다.');
-    }
-    console.log(row);
-  });
 });
