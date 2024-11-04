@@ -30,7 +30,7 @@ function App() {
         isGameActive={isGameActive}
       />
       <GameBoard
-        gameLevel='level1'
+        gameLevel={gameLevel}
         startGame={startGame}
         stopGame={stopGame}
         setTimer={setTimer}
