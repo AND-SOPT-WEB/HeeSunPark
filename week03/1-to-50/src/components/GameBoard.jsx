@@ -1,58 +1,50 @@
 import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { LEVELS } from '../constants/level';
+import {
+  generateShuffledCards,
+  updateDisplayCards,
+  getGridColumns,
+} from '../utils/cardUtil';
 
 const GameBoard = ({ gameLevel }) => {
   const { firstSet, secondSet } = LEVELS[gameLevel];
-  const gridColumns =
-    gameLevel === 'level1'
-      ? 'repeat(3, 1fr)'
-      : gameLevel === 'level2'
-      ? 'repeat(4, 1fr)'
-      : 'repeat(5, 1fr)';
+  const gridColumns = getGridColumns(gameLevel);
+
   const [firstCards, setFirstCards] = useState([]);
   const [secondCards, setSecondCards] = useState([]);
-  const [displayCards, setDisplayCards] = useState([]); // 현재 보여줄 카드 배열
+  const [displayCards, setDisplayCards] = useState([]);
+  const [nextNumber, setNextNumber] = useState(1);
 
   useEffect(() => {
-    const firstNumbers = Array.from(
-      { length: firstSet },
-      (_, index) => index + 1
-    );
-    const secondNumbers = Array.from(
-      { length: secondSet - firstSet },
-      (_, index) => index + firstSet + 1
-    );
-
-    const shuffledFirstNumbers = firstNumbers.sort(() => Math.random() - 0.5);
-    const shuffledSecondNumbers = secondNumbers.sort(() => Math.random() - 0.5);
-
-    setFirstCards(shuffledFirstNumbers); // 첫 번째 카드 세트 설정
-    setSecondCards(shuffledSecondNumbers); // 두 번째 카드 세트 설정
-    setDisplayCards(shuffledFirstNumbers); // 처음에는 첫 번째 카드 세트만 보여줌
+    const { shuffledFirstNumbers, shuffledSecondNumbers } =
+      generateShuffledCards(firstSet, secondSet);
+    setFirstCards(shuffledFirstNumbers);
+    setSecondCards(shuffledSecondNumbers);
+    setDisplayCards(shuffledFirstNumbers);
   }, [gameLevel, firstSet, secondSet]);
 
   const handleCardClick = (number, index) => {
-    setDisplayCards((prevDisplayCards) => {
-      const newDisplayCards = [...prevDisplayCards];
-      if (number <= firstSet) {
-        newDisplayCards[index] = secondCards[index]; // 클릭된 카드의 위치에 두 번째 카드로 대체
-      } else {
-        newDisplayCards[index] = null; // 클릭된 카드가 0일 경우 빈 값으로 설정하여 사라지게
-      }
-      return newDisplayCards;
-    });
+    if (number !== nextNumber) {
+      alert(`${nextNumber}을 클릭해주세요.`);
+      return;
+    } // 유효성 검사
+
+    setDisplayCards((prevDisplayCards) =>
+      updateDisplayCards(prevDisplayCards, firstSet, secondCards, index)
+    );
+    setNextNumber((prev) => prev + 1);
   };
 
   return (
     <GameMainContainer>
-      <GameTextWrapper>다음 숫자: 0</GameTextWrapper>
+      <GameTextWrapper>다음 숫자: {nextNumber}</GameTextWrapper>
       <CardContainer gridColumns={gridColumns}>
         {displayCards.map((number, index) => (
           <Card
             key={index}
             onClick={() => handleCardClick(number, index)}
-            isVisible={number !== null}
+            isVisible={number !== ''}
           >
             {number}
           </Card>
@@ -90,17 +82,15 @@ const Card = styled.div`
   align-items: center;
   justify-content: center;
   background-color: ${({ theme, isVisible }) =>
-    isVisible
-      ? theme.colors.darkblue
-      : theme.colors.lightblue}; /* 조건부 배경색 */
+    isVisible ? theme.colors.darkblue : 'transparent'};
   color: ${({ theme, isVisible }) =>
-    isVisible
-      ? theme.colors.white
-      : theme.colors.lightblue}; /* 조건부 텍스트 색상 */
+    isVisible ? theme.colors.white : 'transparent'};
   font-size: 1.5rem;
   font-weight: 700;
+  pointer-events: ${({ isVisible }) => (isVisible ? 'auto' : 'none')};
 
   &:hover {
-    background-color: ${({ theme }) => theme.colors.blue};
+    background-color: ${({ theme, isVisible }) =>
+      isVisible ? theme.colors.blue : 'transparent'};
   }
 `;
