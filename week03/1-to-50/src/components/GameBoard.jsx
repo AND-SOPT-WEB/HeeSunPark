@@ -1,26 +1,61 @@
-// GameBoard.jsx
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
-import { LEVELS } from '../constants/level'; // 상수 파일 import
+import { LEVELS } from '../constants/level';
 
 const GameBoard = ({ gameLevel }) => {
-  const cardCount = LEVELS[gameLevel]; // 선택된 레벨에 따른 카드 개수
+  const { firstSet, secondSet } = LEVELS[gameLevel];
   const gridColumns =
     gameLevel === 'level1'
       ? 'repeat(3, 1fr)'
       : gameLevel === 'level2'
       ? 'repeat(4, 1fr)'
-      : 'repeat(5, 1fr)'; // 레벨에 따른 그리드 설정
+      : 'repeat(5, 1fr)';
+  const [firstCards, setFirstCards] = useState([]);
+  const [secondCards, setSecondCards] = useState([]);
+  const [displayCards, setDisplayCards] = useState([]); // 현재 보여줄 카드 배열
 
-  const numbers = Array.from({ length: cardCount }, (_, index) => index + 1);
-  const shuffledNumbers = numbers.sort(() => Math.random() - 0.5);
+  useEffect(() => {
+    const firstNumbers = Array.from(
+      { length: firstSet },
+      (_, index) => index + 1
+    );
+    const secondNumbers = Array.from(
+      { length: secondSet - firstSet },
+      (_, index) => index + firstSet + 1
+    );
+
+    const shuffledFirstNumbers = firstNumbers.sort(() => Math.random() - 0.5);
+    const shuffledSecondNumbers = secondNumbers.sort(() => Math.random() - 0.5);
+
+    setFirstCards(shuffledFirstNumbers); // 첫 번째 카드 세트 설정
+    setSecondCards(shuffledSecondNumbers); // 두 번째 카드 세트 설정
+    setDisplayCards(shuffledFirstNumbers); // 처음에는 첫 번째 카드 세트만 보여줌
+  }, [gameLevel, firstSet, secondSet]);
+
+  const handleCardClick = (number, index) => {
+    setDisplayCards((prevDisplayCards) => {
+      const newDisplayCards = [...prevDisplayCards];
+      if (number <= firstSet) {
+        newDisplayCards[index] = secondCards[index]; // 클릭된 카드의 위치에 두 번째 카드로 대체
+      } else {
+        newDisplayCards[index] = null; // 클릭된 카드가 0일 경우 빈 값으로 설정하여 사라지게
+      }
+      return newDisplayCards;
+    });
+  };
 
   return (
     <GameMainContainer>
       <GameTextWrapper>다음 숫자: 0</GameTextWrapper>
       <CardContainer gridColumns={gridColumns}>
-        {shuffledNumbers.map((number) => (
-          <Card key={number}>{number}</Card>
+        {displayCards.map((number, index) => (
+          <Card
+            key={index}
+            onClick={() => handleCardClick(number, index)}
+            isVisible={number !== null}
+          >
+            {number}
+          </Card>
         ))}
       </CardContainer>
     </GameMainContainer>
@@ -54,8 +89,14 @@ const Card = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: ${({ theme }) => theme.colors.darkblue};
-  color: ${({ theme }) => theme.colors.white};
+  background-color: ${({ theme, isVisible }) =>
+    isVisible
+      ? theme.colors.darkblue
+      : theme.colors.lightblue}; /* 조건부 배경색 */
+  color: ${({ theme, isVisible }) =>
+    isVisible
+      ? theme.colors.white
+      : theme.colors.lightblue}; /* 조건부 텍스트 색상 */
   font-size: 1.5rem;
   font-weight: 700;
 
