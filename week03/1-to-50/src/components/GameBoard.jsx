@@ -7,7 +7,7 @@ import {
   getGridColumns,
 } from '../utils/cardUtil';
 
-const GameBoard = ({ gameLevel }) => {
+const GameBoard = ({ gameLevel, startGame, stopGame, setTimer }) => {
   const { firstSet, secondSet } = LEVELS[gameLevel];
   const gridColumns = getGridColumns(gameLevel);
 
@@ -24,11 +24,28 @@ const GameBoard = ({ gameLevel }) => {
     setDisplayCards(shuffledFirstNumbers);
   }, [gameLevel, firstSet, secondSet]);
 
+  useEffect(() => {
+    let interval;
+    if (nextNumber > 1) {
+      startGame();
+      interval = setInterval(() => {
+        setTimer((prev) => prev + 0.01);
+      }, 10);
+    }
+
+    return () => clearInterval(interval);
+  }, [nextNumber, startGame, setTimer]);
+
   const handleCardClick = (number, index) => {
     if (number !== nextNumber) {
       alert(`${nextNumber}을 클릭해주세요.`);
       return;
     } // 유효성 검사
+
+    if (number === LEVELS[gameLevel].secondSet) {
+      stopGame();
+      return;
+    }
 
     setDisplayCards((prevDisplayCards) =>
       updateDisplayCards(prevDisplayCards, firstSet, secondCards, index)

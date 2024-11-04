@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-const Header = ({ gameLevel, setGameLevel }) => {
+const Header = ({ gameLevel, setGameLevel, timer }) => {
   // 게임 레벨 변경 함수
   const handleLevelChange = (e) => {
     setGameLevel(e.target.value);
@@ -21,7 +21,7 @@ const Header = ({ gameLevel, setGameLevel }) => {
           <option value='level2'>Level 2</option>
           <option value='level3'>Level 3</option>
         </LevelSelector>
-        <Score>0</Score>
+        <Timer>{timer.toFixed(2)}</Timer>
       </HeaderRight>
     </HeaderContainer>
   );
@@ -84,7 +84,7 @@ const LevelSelector = styled.select`
   text-align: center;
 `;
 
-const Score = styled.span`
+const Timer = styled.span`
   font-size: 1rem;
   color: ${({ theme }) => theme.colors.white};
 `;
