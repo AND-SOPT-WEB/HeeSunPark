@@ -1,6 +1,11 @@
 import styled from '@emotion/styled';
 
-const Header = () => {
+const Header = ({ gameLevel, setGameLevel }) => {
+  // 게임 레벨 변경 함수
+  const handleLevelChange = (e) => {
+    setGameLevel(e.target.value);
+  };
+
   return (
     <HeaderContainer>
       <HeaderLeft>
@@ -11,10 +16,10 @@ const Header = () => {
         </ButtonContainer>
       </HeaderLeft>
       <HeaderRight>
-        <LevelSelector>
-          <option value='easy'>쉬움</option>
-          <option value='medium'>보통</option>
-          <option value='hard'>어려움</option>
+        <LevelSelector value={gameLevel} onChange={handleLevelChange}>
+          <option value='level1'>Level 1</option>
+          <option value='level2'>Level 2</option>
+          <option value='level3'>Level 3</option>
         </LevelSelector>
         <Score>0</Score>
       </HeaderRight>
@@ -25,16 +30,13 @@ const Header = () => {
 export default Header;
 
 const HeaderContainer = styled.header`
-  position: fixed;
-  top: 0;
-
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
 
   background-color: ${({ theme }) => theme.colors.darkblue};
-  padding: 1rem;
+  padding: 1rem 4rem;
 `;
 
 const HeaderLeft = styled.div`
@@ -45,7 +47,7 @@ const HeaderLeft = styled.div`
 
 const HeaderTitle = styled.h1`
   color: ${({ theme }) => theme.colors.white};
-  font-size: 1rem;
+  font-size: 1.5rem;
   font-weight: 700;
 `;
 
@@ -58,12 +60,14 @@ const GameButton = styled.button`
   background-color: ${({ theme }) => theme.colors.lightblue};
   border-radius: 0.5rem;
   padding: 0.3rem 0.5rem;
+  font-weight: 600;
 `;
 
 const LankButton = styled.button`
   background-color: ${({ theme }) => theme.colors.lightblue};
   border-radius: 0.5rem;
   padding: 0.3rem 0.5rem;
+  font-weight: 600;
 `;
 
 const HeaderRight = styled.div`
@@ -76,7 +80,7 @@ const HeaderRight = styled.div`
 const LevelSelector = styled.select`
   background-color: white;
   border-radius: 1rem;
-  padding: 0.3rem 0.8rem;
+  padding: 0.3rem 1rem;
   text-align: center;
 `;
 
