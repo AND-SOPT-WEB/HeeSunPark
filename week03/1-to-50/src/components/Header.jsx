@@ -36,7 +36,9 @@ const Header = ({
             <option value='level2'>Level 2</option>
             <option value='level3'>Level 3</option>
           </select>
-          <span>{timer.toFixed(2)}</span>
+          <TimerContainer>
+            <span>{timer.toFixed(2)}</span>
+          </TimerContainer>
         </HeaderRight>
       )}
     </HeaderContainer>
@@ -96,7 +98,7 @@ const HeaderRight = styled.div`
   display: flex;
   align-items: center;
   flex-basis: 7rem;
-  gap: 1rem;
+  gap: 0.5rem;
 
   & select {
     background-color: white;
@@ -104,9 +106,13 @@ const HeaderRight = styled.div`
     padding: 0.3rem 1rem;
     text-align: center;
   }
+`;
 
-  & span {
-    font-size: 1rem;
-    color: ${({ theme }) => theme.colors.white};
-  }
+const TimerContainer = styled.div`
+  width: 5rem;
+  display: flex;
+  align-items: center;
+  color: ${({ theme }) => theme.colors.white};
+  justify-content: center;
+  font-size: 1rem;
 `;

@@ -1,60 +1,76 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ThemeProvider } from '@emotion/react';
 import theme from './styles/theme';
 import { GlobalStyles } from './styles/GlobalStyle';
 import Header from './components/Header';
 import GameBoard from './components/GameBoard';
 import RankingBoard from './components/RankingBoard';
+import Modal from './components/Modal';
 import { useTimer } from './utils/timer';
 import styled from '@emotion/styled';
 
 function App() {
-  const [isGameActive, setIsGameActive] = useState(false); // 타이머 실행을 위한 변수
-  const [isRankingMode, setIsRankingMode] = useState(false); // 랭킹 모드
-  const [gameLevel, setGameLevel] = useState('level1'); // 기본 레벨 설정
+  const [isGameActive, setIsGameActive] = useState(false);
+  const [isRankingMode, setIsRankingMode] = useState(false);
+  const [gameLevel, setGameLevel] = useState('level1');
+  const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태
+  const [currentTimer, setCurrentTimer] = useState(0); // currentTimer 상태 추가
   const { timer, setTimer, resetTimer } = useTimer(isGameActive);
 
-  // 타이머 시작 및 종료를 담당하는 함수들
+  // 타이머 시작 함수
   const startGame = () => setIsGameActive(true);
 
+  // 게임 종료 함수
   const stopGame = () => {
     setIsGameActive(false);
-    alert(`게임 종료! 걸린 시간: ${timer.toFixed(2)}초`);
+    const formattedTimer = timer.toFixed(2); // 현재 타이머 값을 포맷
+    setCurrentTimer(formattedTimer); // currentTimer 상태 업데이트
+    setIsModalOpen(true);
 
-    // 게임 정보 객체 생성
     const gameData = {
       level: gameLevel,
-      timeTaken: timer.toFixed(2),
-      endTime: new Date().toLocaleString(), // 현재 시각
+      timeTaken: formattedTimer,
+      endTime: new Date().toLocaleString(),
     };
 
-    // 기존 데이터를 가져오기
     const existingData = localStorage.getItem('gameData');
     let gameDataArray = [];
 
-    // 기존 데이터가 있으면 파싱하여 배열에 추가
     if (existingData) {
       try {
         gameDataArray = JSON.parse(existingData);
-        // 기존 데이터가 배열이 아닐 경우 빈 배열로 초기화
         if (!Array.isArray(gameDataArray)) {
           gameDataArray = [];
         }
       } catch (error) {
         console.error('Failed to parse existing game data:', error);
-        // 파싱 실패 시, 빈 배열로 초기화
         gameDataArray = [];
       }
     }
 
-    // 새로운 게임 데이터를 배열에 추가
     gameDataArray.push(gameData);
-
-    // 로컬 스토리지에 전체 배열 저장
     localStorage.setItem('gameData', JSON.stringify(gameDataArray));
-
-    resetTimer();
   };
+
+  // 모달 닫기 함수
+  const closeModal = () => {
+    setIsModalOpen(false);
+    resetTimer(); // 모달을 닫을 때 타이머 초기화
+  };
+
+  // 랭킹 모드 변경 시 타이머와 게임 실행 상태 초기화
+  useEffect(() => {
+    if (isRankingMode) {
+      resetTimer();
+      setIsGameActive(false);
+    }
+  }, [isRankingMode]);
+
+  // gameLevel 변경 시 타이머와 게임 실행 상태 초기화
+  useEffect(() => {
+    resetTimer();
+    setIsGameActive(false);
+  }, [gameLevel]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -68,16 +84,22 @@ function App() {
       />
       <MainContainer>
         {isRankingMode ? (
-          <RankingBoard /> // 랭킹 모드일 경우 랭킹 보드 렌더링
+          <RankingBoard />
         ) : (
           <GameBoard
             gameLevel={gameLevel}
             startGame={startGame}
             stopGame={stopGame}
             setTimer={setTimer}
+            isGameActive={isGameActive}
           />
         )}
       </MainContainer>
+      <Modal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        message={`소요 시간: ${currentTimer}초입니다 !`}
+      />
     </ThemeProvider>
   );
 }
