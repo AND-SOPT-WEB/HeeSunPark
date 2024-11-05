@@ -1,33 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
+import { loadGameData, resetGameData } from '../utils/storage'; // 유틸리티 함수 임포트
 
 const RankingBoard = () => {
   const [rankingData, setRankingData] = useState([]);
 
   useEffect(() => {
-    const storedData = localStorage.getItem('gameData');
-    if (storedData) {
-      const parsedData = JSON.parse(storedData);
-      if (Array.isArray(parsedData)) {
-        setRankingData(parsedData);
-      } else {
-        setRankingData([parsedData]);
-      }
+    const data = loadGameData(); // 로컬 스토리지에서 데이터 불러오기
+    if (Array.isArray(data)) {
+      setRankingData(data);
     }
   }, []);
 
   const handleReset = () => {
-    localStorage.removeItem('gameData');
-    setRankingData([]);
+    resetGameData(); // 로컬 스토리지 초기화
+    setRankingData([]); // 상태 초기화
   };
 
-  // 랭킹 데이터 정렬
   const sortedRankingData = rankingData.slice().sort((a, b) => {
-    // 레벨 내림차순 정렬, 동일 레벨일 경우 시간 오름차순 정렬
     if (b.level !== a.level) {
-      return b.level.localeCompare(a.level); // 높은 레벨 우선
+      return b.level.localeCompare(a.level);
     }
-    return parseFloat(a.timeTaken) - parseFloat(b.timeTaken); // 같은 레벨 내에서 시간 오름차순
+    return parseFloat(a.timeTaken) - parseFloat(b.timeTaken);
   });
 
   return (

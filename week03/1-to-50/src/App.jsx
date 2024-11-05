@@ -7,24 +7,23 @@ import GameBoard from './components/GameBoard';
 import RankingBoard from './components/RankingBoard';
 import Modal from './components/Modal';
 import { useTimer } from './utils/timer';
+import { saveGameData, loadGameData } from './utils/storage';
 import styled from '@emotion/styled';
 
 function App() {
   const [isGameActive, setIsGameActive] = useState(false);
   const [isRankingMode, setIsRankingMode] = useState(false);
   const [gameLevel, setGameLevel] = useState('level1');
-  const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태
-  const [currentTimer, setCurrentTimer] = useState(0); // currentTimer 상태 추가
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentTimer, setCurrentTimer] = useState(0);
   const { timer, setTimer, resetTimer } = useTimer(isGameActive);
 
-  // 타이머 시작 함수
   const startGame = () => setIsGameActive(true);
 
-  // 게임 종료 함수
   const stopGame = () => {
     setIsGameActive(false);
-    const formattedTimer = timer.toFixed(2); // 현재 타이머 값을 포맷
-    setCurrentTimer(formattedTimer); // currentTimer 상태 업데이트
+    const formattedTimer = timer.toFixed(2);
+    setCurrentTimer(formattedTimer);
     setIsModalOpen(true);
 
     const gameData = {
@@ -33,32 +32,15 @@ function App() {
       endTime: new Date().toLocaleString(),
     };
 
-    const existingData = localStorage.getItem('gameData');
-    let gameDataArray = [];
-
-    if (existingData) {
-      try {
-        gameDataArray = JSON.parse(existingData);
-        if (!Array.isArray(gameDataArray)) {
-          gameDataArray = [];
-        }
-      } catch (error) {
-        console.error('Failed to parse existing game data:', error);
-        gameDataArray = [];
-      }
-    }
-
-    gameDataArray.push(gameData);
-    localStorage.setItem('gameData', JSON.stringify(gameDataArray));
+    // 저장 기능 호출
+    saveGameData(gameData);
   };
 
-  // 모달 닫기 함수
   const closeModal = () => {
     setIsModalOpen(false);
-    resetTimer(); // 모달을 닫을 때 타이머 초기화
+    resetTimer();
   };
 
-  // 랭킹 모드 변경 시 타이머와 게임 실행 상태 초기화
   useEffect(() => {
     if (isRankingMode) {
       resetTimer();
@@ -66,7 +48,6 @@ function App() {
     }
   }, [isRankingMode]);
 
-  // gameLevel 변경 시 타이머와 게임 실행 상태 초기화
   useEffect(() => {
     resetTimer();
     setIsGameActive(false);
