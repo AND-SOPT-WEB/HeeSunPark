@@ -1,70 +1,74 @@
 import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { LEVELS } from '../constants/level';
+import Card from './Card';
 import {
-  generateShuffledCards,
-  updateDisplayCards,
+  initializeGame,
+  handleCardClick,
   getGridColumns,
 } from '../utils/cardUtil';
 
 const GameBoard = ({ gameLevel, startGame, stopGame, setTimer }) => {
   const { firstSet, secondSet } = LEVELS[gameLevel];
-  const gridColumns = getGridColumns(gameLevel);
-
   const [firstCards, setFirstCards] = useState([]);
   const [secondCards, setSecondCards] = useState([]);
   const [displayCards, setDisplayCards] = useState([]);
   const [nextNumber, setNextNumber] = useState(1);
 
   useEffect(() => {
-    const { shuffledFirstNumbers, shuffledSecondNumbers } =
-      generateShuffledCards(firstSet, secondSet);
+    const { shuffledFirstNumbers, shuffledSecondNumbers } = initializeGame(
+      firstSet,
+      secondSet
+    );
     setFirstCards(shuffledFirstNumbers);
     setSecondCards(shuffledSecondNumbers);
     setDisplayCards(shuffledFirstNumbers);
   }, [gameLevel, firstSet, secondSet]);
 
   useEffect(() => {
-    let interval;
     if (nextNumber > 1) {
       startGame();
-      interval = setInterval(() => {
-        setTimer((prev) => prev + 0.01);
-      }, 10);
     }
+  }, [nextNumber, startGame]);
 
-    return () => clearInterval(interval);
-  }, [nextNumber, startGame, setTimer]);
-
-  const handleCardClick = (number, index) => {
-    if (number !== nextNumber) {
-      alert(`${nextNumber}을 클릭해주세요.`);
-      return;
-    } // 유효성 검사
-
-    if (number === LEVELS[gameLevel].secondSet) {
-      stopGame();
-      return;
-    }
-
-    setDisplayCards((prevDisplayCards) =>
-      updateDisplayCards(prevDisplayCards, firstSet, secondCards, index)
+  const onCardClick = (number, index) => {
+    handleCardClick(
+      number,
+      index,
+      nextNumber,
+      firstSet,
+      secondCards,
+      setDisplayCards,
+      setNextNumber,
+      resetGame
     );
-    setNextNumber((prev) => prev + 1);
+  };
+
+  const resetGame = () => {
+    const { shuffledFirstNumbers, shuffledSecondNumbers } = initializeGame(
+      firstSet,
+      secondSet
+    );
+    setFirstCards(shuffledFirstNumbers);
+    setSecondCards(shuffledSecondNumbers);
+    setDisplayCards(shuffledFirstNumbers);
+    setNextNumber(1);
+    setTimer(0);
+    stopGame();
   };
 
   return (
     <GameMainContainer>
       <GameTextWrapper>다음 숫자: {nextNumber}</GameTextWrapper>
-      <CardContainer gridColumns={gridColumns}>
+      <CardContainer gridColumns={getGridColumns(gameLevel)}>
         {displayCards.map((number, index) => (
           <Card
             key={index}
-            onClick={() => handleCardClick(number, index)}
+            number={number}
             isVisible={number !== ''}
-          >
-            {number}
-          </Card>
+            isSecondSet={secondCards.includes(number)}
+            onClick={() => onCardClick(number, index)}
+          />
         ))}
       </CardContainer>
     </GameMainContainer>
@@ -73,6 +77,7 @@ const GameBoard = ({ gameLevel, startGame, stopGame, setTimer }) => {
 
 export default GameBoard;
 
+// Styled components
 const GameMainContainer = styled.div`
   padding-top: 2rem;
   display: flex;
@@ -90,24 +95,4 @@ const CardContainer = styled.div`
   display: grid;
   grid-template-columns: ${({ gridColumns }) => gridColumns};
   gap: 1rem;
-`;
-
-const Card = styled.div`
-  width: 4rem;
-  height: 4rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: ${({ theme, isVisible }) =>
-    isVisible ? theme.colors.darkblue : 'transparent'};
-  color: ${({ theme, isVisible }) =>
-    isVisible ? theme.colors.white : 'transparent'};
-  font-size: 1.5rem;
-  font-weight: 700;
-  pointer-events: ${({ isVisible }) => (isVisible ? 'auto' : 'none')};
-
-  &:hover {
-    background-color: ${({ theme, isVisible }) =>
-      isVisible ? theme.colors.blue : 'transparent'};
-  }
 `;

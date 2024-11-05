@@ -39,3 +39,33 @@ export const getGridColumns = (gameLevel) => {
     ? 'repeat(4, 1fr)'
     : 'repeat(5, 1fr)';
 };
+
+export const initializeGame = (firstSet, secondSet) => {
+  return generateShuffledCards(firstSet, secondSet);
+};
+
+export const handleCardClick = (
+  number,
+  index,
+  nextNumber,
+  firstSet,
+  secondSet,
+  setDisplayCards,
+  setNextNumber,
+  resetGame
+) => {
+  if (number !== nextNumber) {
+    alert(`${nextNumber}을 클릭해주세요.`);
+    return;
+  }
+
+  if (number === secondSet) {
+    resetGame();
+    return;
+  }
+
+  setDisplayCards((prevDisplayCards) =>
+    updateDisplayCards(prevDisplayCards, firstSet, secondSet, index)
+  );
+  setNextNumber((prev) => prev + 1);
+};
