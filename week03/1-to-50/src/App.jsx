@@ -4,11 +4,13 @@ import theme from './styles/theme';
 import { GlobalStyles } from './styles/GlobalStyle';
 import Header from './components/Header';
 import GameBoard from './components/GameBoard';
-
+import RankingBoard from './components/RankingBoard';
 import { useTimer } from './utils/timer';
+import styled from '@emotion/styled';
 
 function App() {
-  const [isGameActive, setIsGameActive] = useState(false);
+  const [isGameActive, setIsGameActive] = useState(false); // 타이머 실행을 위한 변수
+  const [isRankingMode, setIsRankingMode] = useState(false); // 랭킹 모드
   const [gameLevel, setGameLevel] = useState('level1'); // 기본 레벨 설정
   const { timer, setTimer, resetTimer } = useTimer(isGameActive);
 
@@ -28,16 +30,31 @@ function App() {
         gameLevel={gameLevel}
         setGameLevel={setGameLevel}
         timer={timer}
-        isGameActive={isGameActive}
+        isRankingMode={isRankingMode}
+        setIsRankingMode={setIsRankingMode}
       />
-      <GameBoard
-        gameLevel={gameLevel}
-        startGame={startGame}
-        stopGame={stopGame}
-        setTimer={setTimer}
-      />
+      <MainContainer>
+        {isRankingMode ? (
+          <RankingBoard /> // 랭킹 모드일 경우 랭킹 보드 렌더링
+        ) : (
+          <GameBoard
+            gameLevel={gameLevel}
+            startGame={startGame}
+            stopGame={stopGame}
+            setTimer={setTimer}
+          />
+        )}
+      </MainContainer>
     </ThemeProvider>
   );
 }
 
 export default App;
+
+const MainContainer = styled.main`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 3rem;
+`;
