@@ -1,4 +1,3 @@
-// Card.js
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
 
@@ -9,10 +8,10 @@ const Card = ({ number, isVisible, isSecondSet, onClick }) => {
     setIsClicked(true);
     onClick();
 
-    // 클릭 효과가 잠깐 유지되도록 설정
+    // 클릭 효과가
     setTimeout(() => {
       setIsClicked(false);
-    }, 200); // 클릭 효과 유지 시간 (200ms)
+    }, 200);
   };
 
   return (

@@ -1,5 +1,3 @@
-// cardUtil.js
-
 export const generateShuffledCards = (firstSet, secondSet) => {
   const firstNumbers = Array.from(
     { length: firstSet },

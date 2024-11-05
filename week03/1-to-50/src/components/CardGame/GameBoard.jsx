@@ -1,15 +1,13 @@
-// GameBoard.jsx
-
 import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
-import { LEVELS } from '../constants/level';
+import { LEVELS } from '../../constants/level';
 import Card from './Card';
 import {
   initializeGame,
   handleCardClick,
   getGridColumns,
   resetGame,
-} from '../utils/cardUtil';
+} from '../../utils/cardUtil';
 
 const GameBoard = ({ gameLevel, startGame, stopGame, setTimer }) => {
   const { firstSet, secondSet } = LEVELS[gameLevel];
