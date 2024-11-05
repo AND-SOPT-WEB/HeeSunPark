@@ -1,17 +1,57 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ThemeProvider } from '@emotion/react';
 import theme from './styles/theme';
 import { GlobalStyles } from './styles/GlobalStyle';
-import Header from './components/Header';
-import GameBoard from './components/GameBoard';
-import RankingBoard from './components/RankingBoard';
+import Header from './components/Header/Header';
+import GameBoard from './components/CardGame/GameBoard';
+import RankingBoard from './components/Ranking/RankingBoard';
+import Modal from './components/Modal/Modal';
+import { useTimer } from './utils/timer';
+import { saveGameData, loadGameData } from './utils/storage';
 import styled from '@emotion/styled';
-import { useGameLogic } from './utils/gameLogic';
 
 function App() {
-  const [isRankingMode, setIsRankingMode] = useState(false); // 랭킹 모드
-  const [gameLevel, setGameLevel] = useState('level1'); // 기본 레벨 설정
-  const { timer } = useGameLogic(gameLevel);
+  const [isGameActive, setIsGameActive] = useState(false);
+  const [isRankingMode, setIsRankingMode] = useState(false);
+  const [gameLevel, setGameLevel] = useState('level1');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentTimer, setCurrentTimer] = useState(0);
+  const { timer, setTimer, resetTimer } = useTimer(isGameActive);
+
+  const startGame = () => setIsGameActive(true);
+
+  const stopGame = () => {
+    setIsGameActive(false);
+    const formattedTimer = timer.toFixed(2);
+    setCurrentTimer(formattedTimer);
+    setIsModalOpen(true);
+
+    const gameData = {
+      level: gameLevel,
+      timeTaken: formattedTimer,
+      endTime: new Date().toLocaleString(),
+    };
+
+    // 저장 기능 호출
+    saveGameData(gameData);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    resetTimer();
+  };
+
+  useEffect(() => {
+    if (isRankingMode) {
+      resetTimer();
+      setIsGameActive(false);
+    }
+  }, [isRankingMode]);
+
+  useEffect(() => {
+    resetTimer();
+    setIsGameActive(false);
+  }, [gameLevel]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -19,17 +59,28 @@ function App() {
       <Header
         gameLevel={gameLevel}
         setGameLevel={setGameLevel}
+        timer={timer}
         isRankingMode={isRankingMode}
         setIsRankingMode={setIsRankingMode}
-        timer={timer}
       />
       <MainContainer>
         {isRankingMode ? (
-          <RankingBoard /> // 랭킹 모드일 경우 랭킹 보드 렌더링
+          <RankingBoard />
         ) : (
-          <GameBoard gameLevel={gameLevel} />
+          <GameBoard
+            gameLevel={gameLevel}
+            startGame={startGame}
+            stopGame={stopGame}
+            setTimer={setTimer}
+            isGameActive={isGameActive}
+          />
         )}
       </MainContainer>
+      <Modal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        message={`소요 시간: ${currentTimer}초입니다 !`}
+      />
     </ThemeProvider>
   );
 }
