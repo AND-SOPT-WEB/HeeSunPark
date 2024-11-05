@@ -1,3 +1,5 @@
+// cardUtil.js
+
 export const generateShuffledCards = (firstSet, secondSet) => {
   const firstNumbers = Array.from(
     { length: firstSet },
@@ -44,12 +46,35 @@ export const initializeGame = (firstSet, secondSet) => {
   return generateShuffledCards(firstSet, secondSet);
 };
 
+export const resetGame = (
+  firstSet,
+  secondSet,
+  setFirstCards,
+  setSecondCards,
+  setDisplayCards,
+  setNextNumber,
+  setTimer,
+  stopGame
+) => {
+  const { shuffledFirstNumbers, shuffledSecondNumbers } = generateShuffledCards(
+    firstSet,
+    secondSet
+  );
+
+  setFirstCards(shuffledFirstNumbers);
+  setSecondCards(shuffledSecondNumbers);
+  setDisplayCards(shuffledFirstNumbers);
+  setNextNumber(1);
+  setTimer(0);
+  stopGame();
+};
+
 export const handleCardClick = (
   number,
   index,
   nextNumber,
   firstSet,
-  secondSet,
+  secondCards,
   setDisplayCards,
   setNextNumber,
   resetGame
@@ -59,13 +84,14 @@ export const handleCardClick = (
     return;
   }
 
-  if (number === secondSet) {
-    resetGame();
+  if (number === secondCards.length + firstSet) {
+    // 종료 조건을 secondSet의 길이로 설정
+    resetGame(); // 게임을 재설정합니다.
     return;
   }
 
   setDisplayCards((prevDisplayCards) =>
-    updateDisplayCards(prevDisplayCards, firstSet, secondSet, index)
+    updateDisplayCards(prevDisplayCards, firstSet, secondCards, index)
   );
   setNextNumber((prev) => prev + 1);
 };

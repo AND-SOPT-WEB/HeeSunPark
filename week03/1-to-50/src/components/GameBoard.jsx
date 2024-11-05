@@ -1,3 +1,5 @@
+// GameBoard.jsx
+
 import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { LEVELS } from '../constants/level';
@@ -6,6 +8,7 @@ import {
   initializeGame,
   handleCardClick,
   getGridColumns,
+  resetGame,
 } from '../utils/cardUtil';
 
 const GameBoard = ({ gameLevel, startGame, stopGame, setTimer }) => {
@@ -40,21 +43,18 @@ const GameBoard = ({ gameLevel, startGame, stopGame, setTimer }) => {
       secondCards,
       setDisplayCards,
       setNextNumber,
-      resetGame
+      () =>
+        resetGame(
+          firstSet,
+          secondSet,
+          setFirstCards,
+          setSecondCards,
+          setDisplayCards,
+          setNextNumber,
+          setTimer,
+          stopGame
+        )
     );
-  };
-
-  const resetGame = () => {
-    const { shuffledFirstNumbers, shuffledSecondNumbers } = initializeGame(
-      firstSet,
-      secondSet
-    );
-    setFirstCards(shuffledFirstNumbers);
-    setSecondCards(shuffledSecondNumbers);
-    setDisplayCards(shuffledFirstNumbers);
-    setNextNumber(1);
-    setTimer(0);
-    stopGame();
   };
 
   return (

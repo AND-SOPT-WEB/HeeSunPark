@@ -20,6 +20,39 @@ function App() {
   const stopGame = () => {
     setIsGameActive(false);
     alert(`게임 종료! 걸린 시간: ${timer.toFixed(2)}초`);
+
+    // 게임 정보 객체 생성
+    const gameData = {
+      level: gameLevel,
+      timeTaken: timer.toFixed(2),
+      endTime: new Date().toLocaleString(), // 현재 시각
+    };
+
+    // 기존 데이터를 가져오기
+    const existingData = localStorage.getItem('gameData');
+    let gameDataArray = [];
+
+    // 기존 데이터가 있으면 파싱하여 배열에 추가
+    if (existingData) {
+      try {
+        gameDataArray = JSON.parse(existingData);
+        // 기존 데이터가 배열이 아닐 경우 빈 배열로 초기화
+        if (!Array.isArray(gameDataArray)) {
+          gameDataArray = [];
+        }
+      } catch (error) {
+        console.error('Failed to parse existing game data:', error);
+        // 파싱 실패 시, 빈 배열로 초기화
+        gameDataArray = [];
+      }
+    }
+
+    // 새로운 게임 데이터를 배열에 추가
+    gameDataArray.push(gameData);
+
+    // 로컬 스토리지에 전체 배열 저장
+    localStorage.setItem('gameData', JSON.stringify(gameDataArray));
+
     resetTimer();
   };
 

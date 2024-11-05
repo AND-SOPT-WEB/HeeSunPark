@@ -1,12 +1,31 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 
 const RankingBoard = () => {
+  const [rankingData, setRankingData] = useState([]);
+
+  useEffect(() => {
+    // 로컬 스토리지에서 게임 데이터 가져오기
+    const storedData = localStorage.getItem('gameData');
+    if (storedData) {
+      // JSON 파싱하여 상태에 저장
+      const parsedData = JSON.parse(storedData);
+      // 기존 배열에 기존 데이터가 포함되어 있는 경우, 상태에 저장
+      if (Array.isArray(parsedData)) {
+        setRankingData(parsedData); // 기존 배열 그대로 저장
+      } else {
+        setRankingData([parsedData]); // 단일 객체인 경우 배열로 감싸서 저장
+      }
+    }
+  }, []);
+
   return (
     <RankingContainer>
       <RankingHeader>
         <h1>랭킹</h1>
-        <button>🔃 초기화</button>
+        <button onClick={() => localStorage.removeItem('gameData')}>
+          🔃 초기화
+        </button>
       </RankingHeader>
 
       <RankingTable>
@@ -18,17 +37,13 @@ const RankingBoard = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          <TableRow>
-            <TableCell>2024-11-05 10:00</TableCell>
-            <TableCell>레벨 1</TableCell>
-            <TableCell>10분</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>2024-11-05 10:30</TableCell>
-            <TableCell>레벨 2</TableCell>
-            <TableCell>15분</TableCell>
-          </TableRow>
-          {/* 더 많은 행을 추가할 수 있습니다 */}
+          {rankingData.map((data, index) => (
+            <TableRow key={index}>
+              <TableCell>{data.endTime}</TableCell>
+              <TableCell>{data.level}</TableCell>
+              <TableCell>{data.timeTaken}초</TableCell>
+            </TableRow>
+          ))}
         </TableBody>
       </RankingTable>
     </RankingContainer>
@@ -45,9 +60,7 @@ const RankingContainer = styled.div`
   padding: 2rem;
   border-radius: 1rem;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-
   width: 60%;
-
   background-color: ${({ theme }) => theme.colors.white};
   text-align: center;
 `;
@@ -57,7 +70,6 @@ const RankingHeader = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-
   position: relative;
 
   & h1 {
@@ -75,9 +87,9 @@ const RankingHeader = styled.div`
     color: ${({ theme }) => theme.colors.black};
     border-radius: 0.5rem;
     cursor: pointer;
-
     border: 1px solid ${({ theme }) => theme.colors.black};
     text-align: right;
+
     &:hover {
       background-color: ${({ theme }) => theme.colors.darkgray};
     }
