@@ -5,27 +5,36 @@ const RankingBoard = () => {
   const [rankingData, setRankingData] = useState([]);
 
   useEffect(() => {
-    // 로컬 스토리지에서 게임 데이터 가져오기
     const storedData = localStorage.getItem('gameData');
     if (storedData) {
-      // JSON 파싱하여 상태에 저장
       const parsedData = JSON.parse(storedData);
-      // 기존 배열에 기존 데이터가 포함되어 있는 경우, 상태에 저장
       if (Array.isArray(parsedData)) {
-        setRankingData(parsedData); // 기존 배열 그대로 저장
+        setRankingData(parsedData);
       } else {
-        setRankingData([parsedData]); // 단일 객체인 경우 배열로 감싸서 저장
+        setRankingData([parsedData]);
       }
     }
   }, []);
+
+  const handleReset = () => {
+    localStorage.removeItem('gameData');
+    setRankingData([]);
+  };
+
+  // 랭킹 데이터 정렬
+  const sortedRankingData = rankingData.slice().sort((a, b) => {
+    // 레벨 내림차순 정렬, 동일 레벨일 경우 시간 오름차순 정렬
+    if (b.level !== a.level) {
+      return b.level.localeCompare(a.level); // 높은 레벨 우선
+    }
+    return parseFloat(a.timeTaken) - parseFloat(b.timeTaken); // 같은 레벨 내에서 시간 오름차순
+  });
 
   return (
     <RankingContainer>
       <RankingHeader>
         <h1>랭킹</h1>
-        <button onClick={() => localStorage.removeItem('gameData')}>
-          🔃 초기화
-        </button>
+        <button onClick={handleReset}>🔃 초기화</button>
       </RankingHeader>
 
       <RankingTable>
@@ -37,7 +46,7 @@ const RankingBoard = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {rankingData.map((data, index) => (
+          {sortedRankingData.map((data, index) => (
             <TableRow key={index}>
               <TableCell>{data.endTime}</TableCell>
               <TableCell>{data.level}</TableCell>
@@ -80,7 +89,7 @@ const RankingHeader = styled.div`
   }
 
   & button {
-    position: absolute; /* 절대 위치 지정 */
+    position: absolute;
     right: 0;
     padding: 0.5rem 1rem;
     background-color: ${({ theme }) => theme.colors.gray};
@@ -108,15 +117,15 @@ const TableHeader = styled.thead`
 const TableRow = styled.tr``;
 
 const TableHeaderCell = styled.th`
-  padding: 1rem; /* 셀 내부 여백 */
-  text-align: left; /* 텍스트 왼쪽 정렬 */
+  padding: 1rem;
+  text-align: left;
   color: ${({ theme }) => theme.colors.white};
   border: 1px solid ${({ theme }) => theme.colors.gray};
   font-weight: bold;
 `;
 
 const TableBody = styled.tbody`
-  background-color: ${({ theme }) => theme.colors.lightgray}; /* 본문 배경색 */
+  background-color: ${({ theme }) => theme.colors.lightgray};
 `;
 
 const TableCell = styled.td`
