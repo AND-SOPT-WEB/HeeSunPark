@@ -6,10 +6,12 @@ const Header = ({
   timer,
   isRankingMode,
   setIsRankingMode,
+  initiateGame, // 타이머 시작 함수 추가
 }) => {
   // 게임 레벨 변경 함수
   const handleLevelChange = (e) => {
     setGameLevel(e.target.value);
+    initiateGame(); // 게임 레벨 변경 시 타이머 시작
   };
 
   const handleRankingMode = () => {
@@ -50,7 +52,6 @@ const HeaderContainer = styled.header`
   align-items: center;
   justify-content: space-between;
   width: 100%;
-
   background-color: ${({ theme }) => theme.colors.darkblue};
   padding: 1rem 4rem;
 `;
@@ -95,7 +96,7 @@ const LankButton = styled.button`
 const HeaderRight = styled.div`
   display: flex;
   align-items: center;
-  flex-basis: 7rem;
+  flex-basis: 8rem;
   gap: 1rem;
 
   & select {

@@ -1,75 +1,52 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
-import { LEVELS } from '../constants/level';
+import { useGameLogic } from '../utils/gameLogic';
 import Card from './Card';
-import {
-  initializeGame,
-  handleCardClick,
-  getGridColumns,
-} from '../utils/cardUtil';
+import { LEVELS } from '../constants/level';
 
-const GameBoard = ({ gameLevel, startGame, stopGame, setTimer }) => {
+const GameBoard = ({ gameLevel }) => {
   const { firstSet, secondSet } = LEVELS[gameLevel];
-  const [firstCards, setFirstCards] = useState([]);
-  const [secondCards, setSecondCards] = useState([]);
-  const [displayCards, setDisplayCards] = useState([]);
-  const [nextNumber, setNextNumber] = useState(1);
 
-  useEffect(() => {
-    const { shuffledFirstNumbers, shuffledSecondNumbers } = initializeGame(
-      firstSet,
-      secondSet
-    );
-    setFirstCards(shuffledFirstNumbers);
-    setSecondCards(shuffledSecondNumbers);
-    setDisplayCards(shuffledFirstNumbers);
-  }, [gameLevel, firstSet, secondSet]);
+  const { displayCards, nextNumber, timer, handleCardClick, initializeGame } =
+    useGameLogic(gameLevel);
 
-  useEffect(() => {
-    if (nextNumber > 1) {
-      startGame();
-    }
-  }, [nextNumber, startGame]);
-
-  const onCardClick = (number, index) => {
-    handleCardClick(
-      number,
-      index,
-      nextNumber,
-      firstSet,
-      secondCards,
-      setDisplayCards,
-      setNextNumber,
-      resetGame
-    );
+  const initiateGame = () => {
+    // 게임 초기화 로직
+    initializeGame();
   };
 
-  const resetGame = () => {
-    const { shuffledFirstNumbers, shuffledSecondNumbers } = initializeGame(
-      firstSet,
-      secondSet
-    );
-    setFirstCards(shuffledFirstNumbers);
-    setSecondCards(shuffledSecondNumbers);
-    setDisplayCards(shuffledFirstNumbers);
-    setNextNumber(1);
-    setTimer(0);
-    stopGame();
+  const getGridColumns = (gameLevel) => {
+    let gridColumns;
+
+    if (gameLevel === 'level1') {
+      gridColumns = 'repeat(3, 1fr)'; // 3x3 그리드
+    } else if (gameLevel === 'level2') {
+      gridColumns = 'repeat(4, 1fr)'; // 4x4 그리드
+    } else {
+      gridColumns = 'repeat(5, 1fr)'; // 5x5 그리드
+    }
+
+    return gridColumns;
   };
 
   return (
     <GameMainContainer>
       <GameTextWrapper>다음 숫자: {nextNumber}</GameTextWrapper>
       <CardContainer gridColumns={getGridColumns(gameLevel)}>
-        {displayCards.map((number, index) => (
-          <Card
-            key={index}
-            number={number}
-            isVisible={number !== ''}
-            isSecondSet={secondCards.includes(number)}
-            onClick={() => onCardClick(number, index)}
-          />
-        ))}
+        {displayCards.map((number, index) => {
+          // 두 번째 셋인지 확인 (secondSet의 값 이상이면 두 번째 셋으로 간주)
+          const isSecondSet = number > firstSet;
+
+          return (
+            <Card
+              key={index}
+              number={number}
+              isVisible={number !== ''}
+              isSecondSet={isSecondSet} // isSecondSet 전달
+              onClick={() => handleCardClick(number, index, initiateGame)}
+            />
+          );
+        })}
       </CardContainer>
     </GameMainContainer>
   );

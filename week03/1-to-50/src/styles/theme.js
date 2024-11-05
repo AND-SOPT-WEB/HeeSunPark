@@ -7,7 +7,7 @@ const theme = {
     darkblue: '#003e8f',
     mediumblue: '#80c0ff',
     lightblue: '#c8e5ff',
-    softblue: '#e3f2ff';
+    softblue: '#e3f2ff',
     gray: '#dfdfdf',
   },
 };
