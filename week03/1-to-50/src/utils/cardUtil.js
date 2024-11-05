@@ -84,7 +84,7 @@ export const handleCardClick = (
 
   if (number === secondCards.length + firstSet) {
     // 종료 조건을 secondSet의 길이로 설정
-    resetGame(); // 게임을 재설정합니다.
+    resetGame(); // 게임재설정
     return;
   }
 
