@@ -14,14 +14,14 @@ const login = () => {
             id='id'
             name='id'
             placeholder='아이디'
-            className='w-full p-5 rounded-lg border border-textSecondary placeholder:text-base'
+            className='w-full p-5 rounded-lg border border-textSecondary placeholder:text-base text-base'
           />
           <input
             type='password'
             id='password'
             name='password'
             placeholder='비밀번호'
-            className='w-full p-5 rounded-lg border border-textSecondary placeholder:text-base'
+            className='w-full p-5 rounded-lg border border-textSecondary placeholder:text-base text-base'
           />
 
           {/* 로그인 버튼 및 회원가입 */}

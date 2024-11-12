@@ -13,7 +13,8 @@ export default {
         textPrimary: colors.black,
         textSecondary: colors.gray,
         textPoint: colors.blue,
-        gray: colors.gray,
+        inactive: colors.gray,
+        active: colors.mediumblue,
       },
       spacing: {
         '1': '0.25rem', // 4px
