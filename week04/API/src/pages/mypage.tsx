@@ -1,6 +1,40 @@
 import Header from '../components/Header';
+import { useState } from 'react';
+import { updateUser } from '../api/authApi';
+import { useNavigate } from 'react-router-dom';
 
 const mypage = () => {
+  const [password, setPassword] = useState<string>('');
+  const [hobby, setHobby] = useState<string>('');
+  const navigate = useNavigate();
+
+  const handleUpdateUser = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    // 수정하려는 유저 데이터
+    const updateData = {
+      hobby: hobby || '',
+      password: hobby || '',
+    };
+
+    // 취미와 비밀번호가 모두 빈 값일 때 알림
+    if (hobby == '' && password == '') {
+      alert('변경하려는 정보를 입력해주세요');
+      return;
+    }
+    const response = await updateUser(updateData);
+
+    if (response.code === 'success') {
+      console.log(response.code);
+      alert('내 정보가 변경되었습니다.');
+      localStorage.removeItem('accessToken');
+      navigate('/login');
+    } else {
+      console.log(response.code);
+      alert('정보 변경에 실패했습니다.');
+    }
+  };
+
   return (
     <div>
       <Header />
@@ -18,8 +52,10 @@ const mypage = () => {
             </label>
             <input
               type='password'
-              id='newpassword'
-              name='newpassword'
+              id='password'
+              name='password'
+              value={password ?? ''}
+              onChange={(e) => setPassword(e.target.value)}
               className='w-full p-5 rounded-lg border border-textSecondary placeholder:text-base text-base'
             />
           </div>
@@ -32,14 +68,17 @@ const mypage = () => {
             </label>
             <input
               type='text'
-              id='newhobby'
-              name='newhobby'
+              id='hobby'
+              name='hobby'
+              value={hobby ?? ''}
+              onChange={(e) => setHobby(e.target.value)}
               className='w-full p-5 rounded-lg border border-textSecondary placeholder:text-base text-base'
             />
           </div>
 
           <button
             type='submit'
+            onClick={handleUpdateUser}
             className='w-full p-5 rounded-lg border border-textSecondary text-lg bg-secondary text-white font-bold'
           >
             수정하기

@@ -22,8 +22,8 @@ const login = () => {
         console.log('로그인 요청결과:', response); // 요청 결과 콘솔로 출력
         alert('로그인이 완료되었습니다');
         navigate('/hobby');
-      } else {
-        alert('로그인에 실패했습니다');
+      } else if (response.code === '01') {
+        alert('비밀번호가 틀렸습니다.');
       }
     } catch (error) {
       alert('로그인 요청 중 오류가 발생했습니다');
@@ -59,7 +59,7 @@ const login = () => {
           <button
             type='submit'
             onClick={handleLogin}
-            className='w-full p-5 rounded-lg border border-textSecondary text-lg bg-secondary text-white font-bold'
+            className='w-full p-5 rounded-lg border border-textSecondary text-lg bg-secondary text-white font-bold transition-colors  hover:bg-point'
           >
             로그인
           </button>

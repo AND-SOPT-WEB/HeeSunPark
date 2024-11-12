@@ -40,7 +40,8 @@ const signup = () => {
         console.log('회원가입 요청 결과:', response); // 요청 결과 콘솔로 출력
 
         if ('result' in response) {
-          alert('회원가입이 완료되었습니다');
+          const no = response.result.no;
+          alert(`회원번호: ${no}, 회원가입이 완료되었습니다.`);
           navigate('/login');
         } else {
           alert('회원가입에 실패했습니다');

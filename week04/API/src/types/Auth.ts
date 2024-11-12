@@ -33,13 +33,10 @@ export interface PostLoginFailedResponse {
 }
 
 //유저 정보 변경
-
 export interface PutUserRequest {
-  hobby: string;
-  password: string;
-  headers: {
-    Authorization: string;
-  };
+  //? 사용 -> 취미랑 번호중 하나라도 변경 가능하게 하기 위해서 !
+  hobby?: string;
+  password?: string;
 }
 
 export interface PutUserFailedResponse {

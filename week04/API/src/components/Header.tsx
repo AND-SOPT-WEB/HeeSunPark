@@ -4,6 +4,7 @@ const Header = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
+    localStorage.removeItem('accessToken');
     navigate('/login');
   };
   return (

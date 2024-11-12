@@ -3,9 +3,9 @@ import { useEffect, useState } from 'react';
 import { getMyHobby, getUserHobby } from '../api/hobbyApi';
 
 const hobby = () => {
-  const [myHobby, setMyHobby] = useState<string | null>(null);
-  const [usernumber, setUserNumber] = useState<number | null>(null);
-  const [userHobby, setUserHobby] = useState<String | null>(null);
+  const [myHobby, setMyHobby] = useState<string>('');
+  const [usernumber, setUserNumber] = useState<string>('');
+  const [userHobby, setUserHobby] = useState<string>('');
 
   //내 취미 불러오기
   useEffect(() => {
@@ -28,9 +28,9 @@ const hobby = () => {
 
   const handleGetUserHobby = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (usernumber !== null) {
+    if (usernumber) {
       try {
-        const response = await getUserHobby(usernumber);
+        const response = await getUserHobby(Number(usernumber));
         console.log('사용자 취미 검색 결과: ', response);
         if ('result' in response) {
           setUserHobby(response.result.hobby);
@@ -67,7 +67,7 @@ const hobby = () => {
               id='usernumber'
               name='usernumber'
               value={usernumber ?? ''}
-              onChange={(e) => setUserNumber(Number(e.target.value))}
+              onChange={(e) => setUserNumber(e.target.value)}
               placeholder='사용자 번호'
               className='w-full p-5 rounded-lg border border-textSecondary placeholder:text-base text-base'
             />
@@ -80,7 +80,11 @@ const hobby = () => {
           >
             검색
           </button>
-          <p className='text-base mb-3'>{userHobby}</p>
+          <p className='text-base mb-3'>
+            {usernumber && userHobby
+              ? `${usernumber}번 사용자의 취미는 ${userHobby}입니다.`
+              : ''}
+          </p>
         </form>
       </main>
     </div>
