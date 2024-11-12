@@ -14,7 +14,7 @@ const mypage = () => {
     // 수정하려는 유저 데이터
     const updateData = {
       hobby: hobby || '',
-      password: hobby || '',
+      password: password || '',
     };
 
     // 취미와 비밀번호가 모두 빈 값일 때 알림
