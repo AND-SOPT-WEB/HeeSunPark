@@ -1,10 +1,16 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { signUp } from '../api/authApi';
+import {
+  PostUserRequest,
+  PostUserSuccessResponse,
+  PostUserFailedResponse,
+} from '../types/Auth';
 
 const signup = () => {
   /* 입력 단계마다 다른 input을 보여주기 위해 state 사용 1: 이름, 2:비밀번호, 3:취미 */
   const [step, setStep] = useState(1);
-  const [name, setName] = useState('');
+  const [username, setUserName] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [hobby, setHobby] = useState('');
@@ -13,18 +19,38 @@ const signup = () => {
 
   /* 각 입력 필드의 유효성 검사 상태를 객체로 관리 */
   const [errors, setErrors] = useState({
-    name: false,
+    username: false,
     password: false,
     confirmPassword: false,
     hobby: false,
   });
 
-  /* 입력 단계 증가시키기 */
-  const handleNextStep = () => {
+  /* 입력 단계 증가시키고, 마지막엔 signUp api 호출 */
+  const handleNextStep = async () => {
     if (step === 3) {
-      alert('회원가입이 완료되었습니다');
-      navigate('/login');
-    } else setStep((prev) => prev + 1);
+      try {
+        const signUpData: PostUserRequest = {
+          username,
+          password,
+          hobby,
+        };
+        const response: PostUserSuccessResponse | PostUserFailedResponse =
+          await signUp(signUpData);
+
+        console.log('회원가입 요청 결과:', response); // 요청 결과 콘솔로 출력
+
+        if ('result' in response) {
+          alert('회원가입이 완료되었습니다');
+          navigate('/login');
+        } else {
+          alert('회원가입에 실패했습니다');
+        }
+      } catch (error) {
+        alert('회원가입 요청 중 오류가 발생했습니다');
+      }
+    } else {
+      setStep((prev) => prev + 1);
+    }
   };
 
   /* 8자 이하 유효성 검사 함수 */
@@ -64,15 +90,15 @@ const signup = () => {
   ) => {
     const value = e.target.value;
 
-    /* input id (name, hobby)에 대한 유효성 검사 */
+    /* input id (username, hobby)에 대한 유효성 검사 */
 
     setErrors((prevErrors) => ({
       ...prevErrors,
       [inputId]: isValidLength(value), // 8자 이상이면 오류
     }));
 
-    if (inputId === 'name') {
-      setName(value);
+    if (inputId === 'username') {
+      setUserName(value);
     } else if (inputId === 'hobby') {
       setHobby(value);
     }
@@ -81,7 +107,7 @@ const signup = () => {
   // 각 단계의 인풋이 비어있는지 검사
   /* 현재 단계의 입력 필드가 모두 채워졌는지 확인 */
   const isEmpty = () => {
-    if (step === 1) return name !== '' && !errors.name;
+    if (step === 1) return username !== '' && !errors.username;
     if (step === 2)
       return (
         password !== '' &&
@@ -102,19 +128,22 @@ const signup = () => {
         <form className='w-full'>
           {step === 1 && (
             <div>
-              <label htmlFor='name' className='block text-base font-base mb-5'>
+              <label
+                htmlFor='username'
+                className='block text-base font-base mb-5'
+              >
                 이름
               </label>
               <input
                 type='text'
-                id='name'
-                name='name'
-                value={name}
-                onChange={(e) => handleInputChange(e, 'name')}
+                id='username'
+                name='username'
+                value={username}
+                onChange={(e) => handleInputChange(e, 'username')}
                 placeholder='사용자 이름을 입력해주세요'
                 className='w-full p-5 rounded-lg border border-textSecondary placeholder:text-base text-base'
               />
-              {errors.name && (
+              {errors.username && (
                 <p className='text-red-600 mt-4 text-sm'>
                   이름은 8자 이하로 입력해주세요
                 </p>
