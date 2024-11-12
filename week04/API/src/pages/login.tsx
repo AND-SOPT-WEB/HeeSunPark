@@ -8,7 +8,6 @@ const login = () => {
           <h1 className='w-full text-3xl font-bold mb-4'>로그인</h1>
         </header>
         <form className='flex flex-col gap-3 w-full'>
-          {/* 아이디, 비밀번호 input */}
           <input
             type='text'
             id='id'
@@ -24,7 +23,6 @@ const login = () => {
             className='w-full p-5 rounded-lg border border-textSecondary placeholder:text-base text-base'
           />
 
-          {/* 로그인 버튼 및 회원가입 */}
           <button
             type='submit'
             className='w-full p-5 rounded-lg border border-textSecondary text-lg bg-secondary text-white font-bold'

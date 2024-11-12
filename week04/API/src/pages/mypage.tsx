@@ -21,7 +21,7 @@ const mypage = () => {
               id='newpassword'
               name='newpassword'
               className='w-full p-5 rounded-lg border border-textSecondary placeholder:text-base text-base'
-            ></input>
+            />
           </div>
           <div className='flex flex-col gap-4 w-full'>
             <label
@@ -35,7 +35,7 @@ const mypage = () => {
               id='newhobby'
               name='newhobby'
               className='w-full p-5 rounded-lg border border-textSecondary placeholder:text-base text-base'
-            ></input>
+            />
           </div>
 
           <button
