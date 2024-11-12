@@ -1,156 +1,119 @@
-<!DOCTYPE html>
-<html lang="ko">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Assignment 2</title>
-    <link rel="stylesheet" href="./style.css" />
-    <link rel="stylesheet" href="./reset.css" />
-    <script
-      src="https://kit.fontawesome.com/c86cf0065a.js"
-      crossorigin="anonymous"
-    ></script>
-  </head>
-  <body>
-    <!-- Header -->
-    <header class="header">
-      <div class="header__left">
-        <i class="fa-solid fa-bars"></i>
-      </div>
-      <div class="header__middle">
-        <h1>회원 관리 페이지</h1>
-      </div>
-      <div class="header__right">
-        <p>🌊 AND SOPT 웹파트원 박희선 🌊</p>
-      </div>
-    </header>
+import React, { useEffect, useState } from 'react';
+import styled from '@emotion/styled';
 
-    <!-- main -->
-    <main>
-      <section class="filter">
-        <form class="filter-form">
-          <div class="filter-form__row">
-            <label for="name" class="filter-form__label">이름</label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              class="filter-form__input"
-              placeholder="이름을 입력하세요"
-            />
-          </div>
-          <div class="filter-form__row">
-            <label for="englishName" class="filter-form__label">영문이름</label>
-            <input
-              type="text"
-              id="englishName"
-              name="englishName"
-              class="filter-form__input"
-              placeholder="영문이름을 입력하세요"
-            />
-          </div>
-          <div class="filter-form__row--three-item">
-            <div class="filter-form__row">
-              <label for="github" class="filter-form__label">GitHub</label>
-              <input
-                type="text"
-                id="github"
-                name="github"
-                class="filter-form__input"
-                placeholder="GitHub ID를 입력하세요"
-              />
-            </div>
-            <div class="filter-form__row">
-              <label for="gender" class="filter-form__label">성별</label>
-              <select name="gender" class="filter-form__select">
-                <option value="">성별 선택</option>
-                <option value="male">남자</option>
-                <option value="female">여자</option>
-              </select>
-            </div>
-            <div class="filter-form__row">
-              <label for="role" class="filter-form__label">역할</label>
-              <select name="role" class="filter-form__select">
-                <option value="">OB / YB 선택</option>
-                <option value="ob">OB</option>
-                <option value="yb">YB</option>
-              </select>
-            </div>
-          </div>
-          <div class="filter-form__row--two-item">
-            <div class="filter-form__row">
-              <label for="firstWeekGroup" class="filter-form__label"
-                >1주차 금잔디조</label
-              >
-              <input
-                type="number"
-                id="firstWeekGroup"
-                name="firstWeekGroup"
-                class="filter-form__input"
-                placeholder="1주차 금잔디조를 입력하세요 (1~9)"
-              />
-            </div>
-            <div class="filter-form__row">
-              <label for="secondWeekGroup" class="filter-form__label"
-                >2주차 금잔디조</label
-              >
-              <input
-                type="number"
-                id="secondWeekGroup"
-                name="secondWeekGroup"
-                class="filter-form__input"
-                placeholder="2주차 금잔디조를 입력하세요 (1~9)"
-              />
-            </div>
-          </div>
-          <div class="filter-form__actions">
-            <button type="reset" class="filter-form__action--reset">
-              초기화
-            </button>
-            <button type="submit" class="filter-form__action--submit">
-              검색
-            </button>
-          </div>
-        </form>
-      </section>
+const RankingBoard = () => {
+  const [rankingData, setRankingData] = useState([]);
 
-      <!-- member list -->
-      <section class="members">
-        <div class="members__actions">
-          <button class="members__actions--delete">선택삭제</button>
-          <button class="members__actions--add">추가</button>
-        </div>
-        <table class="members-table">
-          <thead>
-            <tr class="members-table__head">
-              <th><input type="checkbox" id="select-all" /></th>
-              <th>이름</th>
-              <th>영문 이름</th>
-              <th>GitHub</th>
-              <th>성별</th>
-              <th>역할</th>
-              <th>1주차 금잔디</th>
-              <th>2주차 금잔디</th>
-            </tr>
-          </thead>
-          <tbody class="members-table__body"></tbody>
-        </table>
-      </section>
-    </main>
+  useEffect(() => {
+    // 로컬 스토리지에서 게임 데이터 가져오기
+    const storedData = localStorage.getItem('gameData');
+    if (storedData) {
+      // JSON 파싱하여 상태에 저장
+      const parsedData = JSON.parse(storedData);
+      setRankingData([parsedData]); // 배열 형태로 저장 (여러 데이터를 수용하기 위해)
+    }
+  }, []);
 
-    <!-- Modal Section -->
-    <section class="modal"></section>
+  return (
+    <RankingContainer>
+      <RankingHeader>
+        <h1>랭킹</h1>
+        <button onClick={() => localStorage.removeItem('gameData')}>🔃 초기화</button>
+      </RankingHeader>
 
-    <!-- Footer -->
-    <footer>
-      <div class="footer-content">
-        <p>AND SOPT Web Part Week 2 Assignment</p>
-        <a href="https://www.instagram.com/pkkheesun/">@pkkheesun</a>
-      </div>
-    </footer>
+      <RankingTable>
+        <TableHeader>
+          <TableRow>
+            <TableHeaderCell>타임스탬프</TableHeaderCell>
+            <TableHeaderCell>레벨</TableHeaderCell>
+            <TableHeaderCell>플레이 시간</TableHeaderCell>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {rankingData.map((data, index) => (
+            <TableRow key={index}>
+              <TableCell>{data.endTime}</TableCell>
+              <TableCell>{data.level}</TableCell>
+              <TableCell>{data.timeTaken}초</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </RankingTable>
+    </RankingContainer>
+  );
+};
 
-    <script src="./js/utils/data.js" type="module"></script>
-    <script src="./js/script.js" type="module"></script>
-    <script src="./js/utils/modal.js" type="module"></script>
-  </body>
-</html>
+export default RankingBoard;
+
+const RankingContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 60%;
+  background-color: ${({ theme }) => theme.colors.white};
+  text-align: center;
+`;
+
+const RankingHeader = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  position: relative;
+
+  & h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    flex-grow: 1;
+    text-align: center;
+  }
+
+  & button {
+    position: absolute; /* 절대 위치 지정 */
+    right: 0;
+    padding: 0.5rem 1rem;
+    background-color: ${({ theme }) => theme.colors.gray};
+    color: ${({ theme }) => theme.colors.black};
+    border-radius: 0.5rem;
+    cursor: pointer;
+    border: 1px solid ${({ theme }) => theme.colors.black};
+    text-align: right;
+
+    &:hover {
+      background-color: ${({ theme }) => theme.colors.darkgray};
+    }
+  }
+`;
+
+const RankingTable = styled.table`
+  width: 100%;
+  margin-top: 2rem;
+`;
+
+const TableHeader = styled.thead`
+  background-color: ${({ theme }) => theme.colors.darkblue};
+`;
+
+const TableRow = styled.tr``;
+
+const TableHeaderCell = styled.th`
+  padding: 1rem; /* 셀 내부 여백 */
+  text-align: left; /* 텍스트 왼쪽 정렬 */
+  color: ${({ theme }) => theme.colors.white};
+  border: 1px solid ${({ theme }) => theme.colors.gray};
+  font-weight: bold;
+`;
+
+const TableBody = styled.tbody`
+  background-color: ${({ theme }) => theme.colors.lightgray}; /* 본문 배경색 */
+`;
+
+const TableCell = styled.td`
+  padding: 1rem;
+  text-align: left;
+  border: 1px solid ${({ theme }) => theme.colors.gray};
+`;
